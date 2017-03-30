@@ -1,0 +1,14 @@
+.carousel{
+			overflow:hidden;
+    		width:100%;
+		}
+		ul.slides{
+			padding:0 !important;
+			list-style:none;
+			position:relative;
+			transition-timing-function: ease-out;
+			transition-duration: 1s;
+		}
+		ul.slides > li{
+			float:left;
+		}

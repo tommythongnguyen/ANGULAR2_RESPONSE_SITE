@@ -1,0 +1,21 @@
+/* You can add global styles to this file, and also import other style files */
+@import './app/shared/components/shared-component.scss';
+body{
+	background-color:azure;
+
+	section.site-content{
+		margin-top:73px;
+	}
+}
+.center-form{
+    display: block;
+    float:none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+
+
+

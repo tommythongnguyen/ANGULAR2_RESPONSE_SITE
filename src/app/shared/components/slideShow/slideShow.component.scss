@@ -1,0 +1,37 @@
+@import '../modal/modal.component';
+
+$modal-left-right-margin: 15px;
+section.slide-show-header{
+ 	span{
+ 		display:inline-block;
+ 		margin:5px $modal-left-right-margin;
+ 		img{
+ 			width:33px;
+ 			height:auto;
+ 			&:hover{
+ 				cursor:pointer;
+ 				width: 35px;
+ 				margin-bottom: -2px;
+ 			}
+ 		}
+ 	}
+ 	.play-control{
+ 		float:left;
+ 	}
+ 	.close-control{
+ 		float: right;
+ 	}
+
+}
+section.slide-show-body{
+	padding:5px $modal-left-right-margin;
+	img{
+		border-radius: 3px;
+		border:solid #B0AEAE 2px;
+	}
+}
+
+section.slide-show-footer{
+	border-top: solid 2px #9C9B9B;
+	padding: 7px $modal-left-right-margin;
+}

@@ -1,0 +1,28 @@
+{
+  "response": [
+    {
+      "src": "https://www.youtube.com/embed/Xdv83MFJd7U",
+      "title": "Season In The Sun",
+      "img": "./assets/graphics/album/swearItAgain.jpg",
+      "alt": "Season In The Sun"
+    },
+    {
+      "src": "https://www.youtube.com/embed/b_ILDFp5DGA",
+      "title": "Hello",
+      "img": "./assets/graphics/album/hello.jpg",
+      "alt": "Hello"
+    },
+    {
+      "src": "https://www.youtube.com/embed/2Abk1jAONjw",
+      "title": "Just Dance",
+      "img": "./assets/graphics/album/justDance.jpg",
+      "alt": "SJust Dace"
+    },
+    {
+      "src": "https://www.youtube.com/embed/BWf-eARnf6U",
+      "title": "Heal The world",
+      "img": "./assets/graphics/album/healTheWorld.jpg",
+      "alt": "Heal The World"
+    }
+  ]
+}

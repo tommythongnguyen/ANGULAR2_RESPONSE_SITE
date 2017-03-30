@@ -1,0 +1,55 @@
+@mixin box-shadow($top, $left, $blur, $spread, $color, $inset: false) {
+    @if $inset {
+        -webkit-box-shadow: inset $top $left $blur $spread $color;
+        -moz-box-shadow: inset $top $left $blur $spread $color;
+        box-shadow: inset $top $left $blur $spread $color;
+    }
+    @else {
+        -webkit-box-shadow: $top $left $blur $spread $color;
+        -moz-box-shadow: $top $left $blur $spread $color;
+        box-shadow: $top $left $blur $spread $color;
+    }
+}
+
+.active-image {
+    transform: scale(1.1);
+    @include box-shadow(0, 0, 18px, 2px, rgba(0, 0, 0, 0.4));
+}
+
+.flex-images {
+    overflow: hidden;
+    &:hover {
+        overflow-x: scroll;
+        white-space: nowrap;
+    }
+    ul.scrolling-list {
+        position: relative;
+        list-style: none;
+        padding: 3px 0;
+        display: flex;
+        transition-timing-function: ease-out;
+        transition-duration: 1s;
+        &:hover {
+            cursor: pointer;
+        }
+        li {
+            flex: 1;
+            margin-left: 2px;
+            margin-right: 2px;
+            img {
+                transition: all .2s ease-in-out;
+                &:hover {
+                    @extend .active-image;
+                }
+            }
+        }
+    }
+    .right-position {
+        margin-left: auto !important;
+    }
+    .center-position {
+        margin-left: auto !important;
+        margin-right: auto !important
+    }
+    .left-position {}
+}

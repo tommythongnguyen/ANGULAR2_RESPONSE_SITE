@@ -1,0 +1,16 @@
+{
+    "response": [
+        { 
+        	"src": "./assets/graphics/carousel/editedCarousel1.jpg" 
+        }, 
+        {
+            "src": "./assets/graphics/carousel/editedCarousel2.jpg"
+        },
+        { 
+        	"src": "./assets/graphics/carousel/editedCarousel3.jpg"
+        },
+        { 
+        	"src": "./assets/graphics/carousel/editedCarousel4.jpg" 
+        }
+    ]
+}

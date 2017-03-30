@@ -1,0 +1,83 @@
+
+ <div class="container" [loading]="isLoading" appendTo="body">
+      <div class="row">
+        <div class="col-sm-6 col-md-6 center-form">
+          <h1 class="text-center register-title">Register</h1>
+          <div class="register-wall">
+              <form [formGroup]="registerForm" novalidate (ngSubmit)="submit(registerForm.value)">
+
+                <div formGroupName="name">
+                    <div class="form-group">
+                        <label for="firstName" class="cols-sm-2 control-label">First Name</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                <input  type="text" class="form-control" 
+                                        id="firstName"  placeholder="Enter your First Name"
+                                        formControlName="firstname" autofocus/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName" class="cols-sm-2 control-label">Last Name</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                <input  type="text" class="form-control" 
+                                        id="lastName"  placeholder="Enter your Name"
+                                        formControlName="lastname"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="cols-sm-2 control-label">Your Email</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                            <input  type="text" class="form-control" 
+                                    id="email"  placeholder="Enter your Email"
+                                    formControlName="email"/>
+                        </div>
+                    </div>
+                    <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="cols-sm-2 control-label">Password</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                            <input  type="password" class="form-control" 
+                                    id="password"  placeholder="Enter your Password"
+                                    formControlName="password"/>
+                        </div>
+                    </div>
+                    <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                            <input  type="password" class="form-control" 
+                                    id="confirm"  placeholder="Confirm your Password"
+                                    formControlName="confirmPassword"/>
+                        </div>
+                    </div>
+                    <div *ngIf="formErrors.confirmPassword" class="alert alert-danger">{{formErrors.confirmPassword}}</div>
+                </div>
+                
+
+                <div class="form-group ">
+                    <button type="submit" [disabled]="!registerForm.valid" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+                </div>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </div>

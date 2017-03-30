@@ -1,0 +1,64 @@
+ .login-title{
+    color: #555;
+    font-size: 18px;
+    font-weight: 400;
+    display: block;
+}
+.login-wall{
+    margin-top: 20px;
+    padding: 40px 20px 20px 20px;
+    background-color: #f7f7f7;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    
+    .profile-img{
+        width: 96px;
+        height: 150px;
+        margin: 0 auto 10px;
+        display: block;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+    }
+    .form-signin{
+        max-width: 330px;
+        padding:15px;
+        margin:0 auto;  
+    }
+    input[type="email"]{
+            height: 40px;
+            margin-bottom: -1px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+    } 
+    input[type="password"]{
+            height: 40px;
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+    }
+    .remember-me{
+        margin-bottom:10px;
+        font-weight: normal;
+        input[type="checkbox"]{
+            position:relative;
+            margin-left: 0;
+        }
+    } 
+    button[type="submit"]{
+        height: 40px;
+        margin-bottom:10px;
+    }
+    
+}
+ .new-account{
+        display: block;
+        margin-top: 10px;
+        text-decoration: none;
+        &:hover{
+            cursor:pointer;
+        }
+}
+
+        

@@ -1,0 +1,28 @@
+{
+  "response": [
+    {
+      "src": "./assets/media/comedy/Video1",
+      "title": "Two And Half Men - Episode 1",
+      "img": "./assets/graphics/media/comedy1.bmp",
+      "alt": "Two And Half Men"
+    },
+    {
+      "src": "./assets/media/comedy/Video2",
+      "title": "Two And Half Men - Episode 2",
+      "img": "./assets/graphics/media/comedy2.png",
+      "alt": "Two And Half Men"
+    },
+    {
+      "src": "./assets/media/comedy/Video3",
+      "title": "Two And Half Men - Episode 3",
+      "img": "./assets/graphics/media/comedy3.png",
+      "alt": "Two And Half Men"
+    },
+    {
+      "src": "./assets/media/comedy/Video4",
+      "title": "Two And Half Men - Episode 4",
+      "img": "./assets/graphics/media/comedy4.png",
+      "alt": "Two And Half Men"
+    }
+  ]
+}

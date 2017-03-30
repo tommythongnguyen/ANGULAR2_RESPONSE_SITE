@@ -1,0 +1,18 @@
+.bg-nav{
+	background-color:cadetblue;
+	a{
+		color:azure; 
+		&:hover{
+			color:white;
+		}
+	}
+	ul.nav-item-link{
+		font-size: 20px;
+	}
+	a.nav-link-active{
+		color:blue;
+		&:hove{
+			color:blue;
+		}
+	}
+}

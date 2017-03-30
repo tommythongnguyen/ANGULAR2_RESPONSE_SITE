@@ -1,0 +1,22 @@
+{
+  "response": [
+    {
+      "title": "Chistmas Album",
+      "img": "./assets/graphics/media/christmasTales.jpg",
+      "alt": "Chirstmas Album",
+      "tracks": [
+        "./assets/media/collection/chistmas/Let_It_Snow.mp3",
+        "./assets/media/collection/chistmas/Rudolph_the_Red-Nosed_Reindeer.mp3"
+      ]
+    },
+    {
+      "title": "Westlife Album",
+      "img": "./assets/graphics/media/westLife.jpg",
+      "alt": "Westlife Album",
+      "tracks": [
+        "./assets/media/collection/chistmas/Seasons_In_the_Sun.mp3",
+        "./assets/media/collection/chistmas/Show_Me_The_Meaning_Of_Being_Lonely.mp3"
+      ]
+    }
+  ]
+}

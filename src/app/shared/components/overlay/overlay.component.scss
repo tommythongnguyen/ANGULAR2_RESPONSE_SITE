@@ -1,0 +1,20 @@
+.overlay-container{
+	position: fixed;
+    border: solid gray 3px;
+    border-radius: 10px;
+    z-index: 1000000;
+    background: white;
+}
+
+.overlay-lg{
+	width: 970px;
+	height:500px;
+}
+.overlay-md{
+	width:720px;
+	height: 400px;
+}
+.overlay-sm{
+	width: 480px;
+	height: 300px;
+}

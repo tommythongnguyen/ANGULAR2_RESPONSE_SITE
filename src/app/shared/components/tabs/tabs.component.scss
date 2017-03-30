@@ -1,0 +1,35 @@
+$tabBorder:rgb(55, 177, 213);
+@mixin borderColor($colorTop, $colorRight, $colorBottom, $colorLeft) {
+    border-top-color: $colorTop !important;
+    border-right-color: $colorRight !important;
+    border-bottom-color: $colorBottom !important;
+    border-left-color: $colorLeft !important;
+}
+
+.activeTab {
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+    @include borderColor(rgb(55, 177, 213), rgb(55, 177, 213), transparent, rgb(55, 177, 213));
+}
+
+ul.nav-tab-header {
+    border-bottom-color: rgb(55, 177, 213);
+    li>span {
+        color: #337ab7;
+        &:hover {
+            @extend .activeTab;
+            cursor: pointer;
+        }
+    }
+}
+
+.tab-content {
+    background-color: rgba(238, 238, 211, 0.4);
+    // padding-bottom: 5%;
+    min-height: 200px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}

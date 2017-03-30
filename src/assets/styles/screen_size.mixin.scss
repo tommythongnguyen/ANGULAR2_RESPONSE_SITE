@@ -1,0 +1,23 @@
+@import './screen_size.variable';
+
+@mixin tablet(){
+	@media (min-width: $tablet-width) and (max-width: $desktop-width-sm - 1){
+		@content;
+	}
+}
+@mixin desktopSmall(){
+	@media (min-width: $desktop-width-sm) and (max-width: $desktop-width-md - 1){
+		@content;
+	}
+}
+@mixin desktopMedium(){
+	@media (min-width: $desktop-width-md) and (max-width: $desktop-width-lg - 1){
+		@content;
+	}
+}
+
+@mixin desktopLarge(){
+	@media (min-width: $desktop-width-lg){
+		@content;
+	}
+}

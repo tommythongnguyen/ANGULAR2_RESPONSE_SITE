@@ -1,0 +1,28 @@
+
+<div class="container" [loading]="isLoading" appendTo="body">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4 center-form">
+            <h1 class="text-center login-title">Sign in</h1>
+            <div class="login-wall">
+                <img class="profile-img" src="./assets/graphics/background/logo.png" alt="" />
+                <form #ngForm [formGroup]="loginForm" novalidate class="form-sigin" (ngSubmit)="submit(loginForm.value)">
+                    <div>
+                        <input class="form-control email" formControlName="email" type="email" placeholder="user@email.com" autofocus>
+                        <div *ngIf="formErrors.email" class="alert alert-danger">{{formErrors.email}}</div>
+                    </div>
+                    <div>
+                        <input class="form-control password" type="password" formControlName="password" placeholder="password">
+                        <div *ngIf="formErrors.password" class="alert alert-danger">{{formErrors.password}}</div>
+                    </div>
+                    <label class="remember-me">
+                        <input type="checkbox" formControlName="rememberMe"> Remember me
+                    </label>
+                    <div *ngIf="isError" class="alert alert-danger">{{errorMessage}}</div>
+                    <button type="submit" class="btn btn-primary btn-block" [disabled]="!loginForm.valid">Sign in</button>
+                    <a href="#" class="pull-right need-help">Need help?</a><span class="clearfix"></span>
+                </form>
+            </div>
+            <a [routerLink]="['../register']" class="text-center new-account">Create an Account</a>
+        </div>
+    </div>
+</div>

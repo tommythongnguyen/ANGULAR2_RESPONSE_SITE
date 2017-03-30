@@ -1,0 +1,28 @@
+<div class="container">
+    <nav class="navbar navbar-toggleable-sm navbar-light bg-nav fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#" [routerLink]="['./home']"  style="width:30px">
+                <img src="./assets/graphics/background/logo.png" width ="100%" alt="Home">
+            </a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav nav-item-link" >
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" [routerLink]="['./home']" routerLinkActive="active">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"[routerLink]="['./album']" routerLinkActive="active">ALBUM</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" [routerLink]="['./media']" routerLinkActive="active">MEDIA</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" [routerLink]="['./about']" routerLinkActive="active">ABOUT</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section>
+		<router-outlet></router-outlet>
+    </section>
+</div>
