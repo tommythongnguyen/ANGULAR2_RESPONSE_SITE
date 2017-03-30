@@ -17,13 +17,13 @@ In order to run the website properly, you need to run:
 
 What did i use to create the website
 
-1. ANGULAR 4.0.0
+1. ANGULAR v4.0.0
 
-2.TYPESCRIPT 2.1.5
+2.TYPESCRIPT v2.1.5
 
-4.BOOTSTRAP 4 
+4.BOOTSTRAP v4.0.0 alpha6
 
-5.HTML5 structure
+5.HTML5
 
 6.SCSS
 
