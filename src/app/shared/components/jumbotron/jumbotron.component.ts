@@ -7,7 +7,7 @@ import {DOCUMENT} from '@angular/platform-browser';
 		<section class="page-title">
 			<div class="header-title">{{pageTitle}}</div>
 			<div class="header-message">Tommy Thong Nguyen - Software Engineer at BankOfAmerica</div>
-			<a href="https://github.com/tommythongnguyen/Responsive-Personal-Website" class="btn btn-info">Visit Me</a>
+			<a href="https://github.com/tommythongnguyen/ANGULAR2_RESPONSE_SITE" class="btn btn-info">Visit Me</a>
 		</section>
 	`
 })
