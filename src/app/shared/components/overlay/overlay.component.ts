@@ -37,7 +37,7 @@ export class OverlayComponent implements OnInit, AfterViewInit, OnDestroy{
 	@Output() onClose: EventEmitter<any> = new EventEmitter<any>();
 	@Input() visible: boolean = false;
 	@Input() draggable: boolean = true;
-	@Input() height: number;
+	@Input() height: number =545;
 	@Input() set size(value: string) {
 		if(value === 'lg') {
 			this._size = "overlay-lg";

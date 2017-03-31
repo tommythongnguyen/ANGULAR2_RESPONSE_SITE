@@ -20,6 +20,6 @@
         </thumbs-gallery>
     </section>
 
-    <slide-show [visible]="showModal" [displayImage]="selectedThumb" [imageList]="quickViewAblum" height="545" size="md" (close)="showModal=false">
+    <slide-show [visible]="showModal" [displayImage]="selectedThumb" [imageList]="quickViewAblum" height="545" size="md" (onBeforeClose)="showModal=false">
     </slide-show>
 </section>

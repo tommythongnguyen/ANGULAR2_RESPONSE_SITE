@@ -18,7 +18,7 @@ interface IImage{
 	//changeDetection: ChangeDetectionStrategy.OnPush,
     template:`
 	<section>
-			<overlay [visible]="visible" (onClose)="closeSlideShow()" size="{{size}}", height="545">
+			<overlay [visible]="visible" (onClose)="closeSlideShow()" size="{{size}}">
 				<section class="slide-show-header">
 					<span class="play-control" (click)="togglePlay()">
 						<img src="./assets/graphics/icons/next.png" alt="play" *ngIf="autoplay">
@@ -47,7 +47,7 @@ export class SlideShowComponent implements OnChanges {
 	private _slideShowImage: IImage;
 	private autoplay: boolean = true;
 	constructor() {}
-	@Output() onCloseModal: EventEmitter<any> = new EventEmitter<any>();
+	@Output() onBeforeClose: EventEmitter<any> = new EventEmitter<any>();
 	@Input() size: string = "md";
 	@Input() height: number;
 	@Input() imageList: IImage[];
@@ -63,8 +63,9 @@ export class SlideShowComponent implements OnChanges {
 		this.slideShowImage = newImage;
 	}
 	closeSlideShow() {
+		console.log('close');
 		this.autoplay = false;
-		this.onCloseModal.emit(false);
+		this.onBeforeClose.emit({});
 	}
 	togglePlay(){
 		this.autoplay = !this.autoplay;
