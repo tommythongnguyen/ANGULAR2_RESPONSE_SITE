@@ -1,4 +1,5 @@
 # ANGULAR2_RESPONSE_SITE (IN PROGRESSING)
+ALL COMPONENTS INSIDE SHARED FOLDER
 
 //==================================================================
 In order to run the website properly, you need to run:
