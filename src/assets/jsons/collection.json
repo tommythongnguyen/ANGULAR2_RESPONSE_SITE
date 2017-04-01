@@ -1,21 +1,33 @@
 {
   "response": [
     {
-      "title": "Chistmas Album",
+      "title": "Christmas Album",
       "img": "./assets/graphics/media/christmasTales.jpg",
-      "alt": "Chirstmas Album",
+      "description": "Christmas Tales is the fourth studio album and first Christmas album by the Belarusian-Norwegian artist Alexander Rybak, it released on the November 23, 2012 in Norway. It has peaked to number 34 on the Norwegian Albums Chart",
       "tracks": [
-        "./assets/media/collection/chistmas/Let_It_Snow.mp3",
-        "./assets/media/collection/chistmas/Rudolph_the_Red-Nosed_Reindeer.mp3"
+        {
+          "name": "Let It Snow",
+          "src": "./assets/media/collection/christmas/Let_It_Snow.mp3"
+        },
+        {
+          "name": "Rudolph the Red Nosed Reindeer",
+          "src": "./assets/media/collection/christmas/Rudolph_the_Red-Nosed_Reindeer.mp3"
+        }
       ]
     },
     {
       "title": "Westlife Album",
       "img": "./assets/graphics/media/westLife.jpg",
-      "alt": "Westlife Album",
+      "description": "Greatest Hits is the second greatest hits album and final release by Irish boy band Westlife. It was released on 18 November 2011 by RCA Records and Sony Music",
       "tracks": [
-        "./assets/media/collection/chistmas/Seasons_In_the_Sun.mp3",
-        "./assets/media/collection/chistmas/Show_Me_The_Meaning_Of_Being_Lonely.mp3"
+        {
+          "name": "Seasons In The Sun",
+          "src": "./assets/media/collection/westlife/Seasons_In_the_Sun.mp3"
+        },
+        {
+          "name": "Show Me The Meaning Of Being Lonely",
+          "src": "./assets/media/collection/westlife/Show_Me_The_Meaning_Of_Being_Lonely.mp3"
+        }
       ]
     }
   ]

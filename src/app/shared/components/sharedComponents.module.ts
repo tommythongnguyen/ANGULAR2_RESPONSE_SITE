@@ -11,6 +11,7 @@ import { SlideShowComponent } from './slideShow';
 import { TabsComponent, TabComponent, TabContentComponent } from './tabs';
 import { CardComponent } from './card';
 import { OverlayComponent } from './overlay';
+import { AudioPlayerComponent } from './audio-player';
 const sharedDirective:any[]=[
     //AutoFocusDirective,
     LoadingDirective,
@@ -37,7 +38,9 @@ const sharedDirective:any[]=[
 
     CardComponent,
 
-    OverlayComponent
+    OverlayComponent, 
+
+    AudioPlayerComponent
 ];
 const importModules:any[]=[
     CommonModule

@@ -23,10 +23,7 @@ interface ITab{
 	template:`
 		<div class="tab-pane tab-pane-custom row" role="tabpanel" [loading]="showLoading" spinner="show">
 			<ng-container *ngIf="templf">
-				<ng-container *ngFor="let item of list">
-					<ng-container *ngTemplateOutlet="templf; context:item"></ng-container>
-				</ng-container>
-				
+				<ng-container *ngTemplateOutlet="templf; context:{list:list}"></ng-container>	
 			</ng-container>
 
 			<ng-container *ngIf="!templf">
@@ -36,11 +33,11 @@ interface ITab{
 	`
 })
 export class TabContentComponent{
-	@Input() list: ICard[];
+	@Input() list: any[];
 	@Input() showLoading: boolean = false;
 	@Input() templf: TemplateRef<any>;
 
-	selectItem(item:ICard){
+	selectItem(item:any){
 		console.log('item: ', item);
 	}
 }

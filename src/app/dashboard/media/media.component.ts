@@ -5,29 +5,30 @@ import { Observable } from 'rxjs/Observable';
 	selector: 'media-page',
 	styleUrls:['./media.component.scss'],
 	template:`
-		<jumbotron side="center">
-		    <page-title title="Media"></page-title>
-		    <section class=".jumb-body">
-		        <img src="./assets/graphics/background/media.jpg" width="100%">
-		    </section>
-		</jumbotron>
-	
-		<section role="tabpanel" class="tab-panel">
-			<tabs (onSelect)="selectTab($event)" activeTab='Music'>
-				<tab *ngFor="let item of tabList" [tab]="item"></tab>
-				<tab-content [list]="TabData" [templf]='_embededTemplf' [showLoading]="isLoading">
-					<ng-template #embededTemplf let-title ="title" let-title="title" let-img="img">
-					     <h4>{{title}}</h4>
-						 <img src="{{img}}" />
-					</ng-template>
-				</tab-content>
-			</tabs>
+		<section>
+			<jumbotron side="center">
+			    <page-title title="Media"></page-title>
+			    <section class=".jumb-body">
+			        <img src="./assets/graphics/background/media.jpg" width="100%">
+			    </section>
+			</jumbotron>
+		
+			<section role="tabpanel" class="tab-panel">
+				<tabs (onSelect)="selectTab($event)" activeTab='Music'>
+					<tab *ngFor="let item of tabList" [tab]="item"></tab>
+					<tab-content [list]="TabData" [templf]='_embededTemplf' [showLoading]="isLoading"></tab-content>
+				</tabs>
+			</section>
+
+			<ng-template #audioPlayerTempl let-list="list">
+						   <audio-player [tracks]="list[0].tracks"></audio-player>
+			</ng-template>
 		</section>
 	`
 })
 export class MediaPageComponent implements OnInit, AfterViewInit {
 	private _embededTemplf: TemplateRef<any>;
-	@ViewChild('embededTemplf') test: TemplateRef<any>;
+	@ViewChild('audioPlayerTempl') audioPlayerTemplate: TemplateRef<any>;
 	isLoading = false;
 	public tabList = [
 		{ header: 'Music' },
@@ -43,7 +44,7 @@ export class MediaPageComponent implements OnInit, AfterViewInit {
 		this.selectTab(this.tabList[0]);
 	}
 	ngAfterViewInit(){
-		console.log('this is test: ', this.test);
+		console.log('this is test: ', this.audioPlayerTemplate);
 	}
 	selectTab(selectedTab){
 		if(selectedTab.header !== this._activeTab){
@@ -54,8 +55,9 @@ export class MediaPageComponent implements OnInit, AfterViewInit {
 				.subscribe(
 				res => {
 					this.TabData = res;
+					console.log('tabData: ', res);
 					if (selectedTab.header === 'Collection') {
-						this._embededTemplf = this.test;
+						this._embededTemplf = this.audioPlayerTemplate;
 					} else {
 						this._embededTemplf = null;
 					}
