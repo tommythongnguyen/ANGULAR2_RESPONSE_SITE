@@ -17,7 +17,7 @@ export interface ITrack{
             </section>
            <article class="col-sm-10 col-md-8">
                 <ul class="track-group">
-                	<li *ngFor="let track of tracks" class="track"(click)="selectTrack(track)">{{track.name}}</li>
+                	<li *ngFor="let track of tracks" class="track"(click)="selectTrack(track)" [class.active]="track.src === activeTrack.src">{{track.name}}</li>
                 </ul>
             </article>	      
 		</section>
