@@ -67,19 +67,19 @@ export class UserRegisterComponent implements OnInit, OnDestroy{
     }
     submit(formValue){
         this.isLoading = true;
-       this._subscription= this._adminService.register({email: formValue.email, password:formValue.password})
-                            .subscribe(
-                                next=>{
-                                    this.isLoading = false;
-                                    this._submitted=true;
-                                    this._router.navigate(['/dashboard'],{relativeTo:this._activatedRoute});
-                                },
-                                error=>{
-                                    console.log('error: ',error);
-                                    this.isLoading = false;
-                                    this._submitted=false;
-                                }
-                            );
+        this._subscription = this._adminService.register({ email: formValue.email, password: formValue.password })
+            .subscribe(
+                next => {
+                    this.isLoading = false;
+                    this._submitted = true;
+                    this._router.navigate(['/pages'], { relativeTo: this._activatedRoute });
+                },
+                error => {
+                    console.log('error: ', error);
+                    this.isLoading = false;
+                    this._submitted = false;
+                }
+            );
     }
 
     hasChange():boolean{

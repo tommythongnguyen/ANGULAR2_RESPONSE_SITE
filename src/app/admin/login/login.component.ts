@@ -76,17 +76,18 @@ export class UserLoginComponent implements OnInit {
                       next => {
                         this.isError = false;
                         this.isLoading = false;
-                        this._router.navigate(['/dashboard'], { relativeTo: this._activatedRoute });
+                        this._router.navigate(['/pages']);
                       },
                       (error: IError) => {
-                        console.log('error: ', error);
-                        if (error && error.type === Error_Enum.MIS_MATCH) {
-                          this.errorMessage = error.message;
-                        } else if (error && error.type === Error_Enum.UNREGISTERED) {
-                          this.errorMessage = error.message;
+                          console.log('error: ', error);
+                          if (error && error.type === Error_Enum.MIS_MATCH) {
+                            this.errorMessage = error.message;
+                          } else if (error && error.type === Error_Enum.UNREGISTERED) {
+                            this.errorMessage = error.message;
+                          }
+                          this.isError = true;
+                          this.isLoading = false;
                         }
-                        this.isError = true;
-                        this.isLoading = false;
-                      });
+                      );
   }
 }

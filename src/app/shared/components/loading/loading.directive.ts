@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Renderer2, OnInit, Output, OnDestroy, Input, OnChanges, SimpleChanges, EventEmitter} from '@angular/core';
-type SPINNER = "show" | "hide";
+
 @Directive({
     selector: '[loading]',
 })
@@ -10,7 +10,7 @@ export class LoadingDirective implements OnDestroy, OnChanges{
     constructor(private _renderer: Renderer2, private _elementRef: ElementRef) { }
     @Input() appendTo: string = "self"; //or body
     @Input() loading: boolean = false;
-    @Input() spinner: SPINNER = "hide";
+    @Input() spinner: string = "show";//hide will hide the spinner
     @Output() onBeforeClose: EventEmitter<any> = new EventEmitter<any>();
    
     ngOnChanges(changes: SimpleChanges) {
@@ -20,14 +20,12 @@ export class LoadingDirective implements OnDestroy, OnChanges{
                     this.showLoadingMask();
                 } else {
                     this.createLoadingMask();
+                    if(this.spinner !=="hide" && !this.spinnerIcon){
+                        this.createAndAppendSpinner();     
+                    }
                 }
             } else {
                 this.hideLoadingMask();
-            }
-        }
-        if (changes['spinner']) {
-            if ((changes['spinner'].currentValue ==="show") && this.loadingMask && !this.spinnerIcon) {             
-                this.createAndAppendSpinner();               
             }
         }
     }

@@ -6,7 +6,7 @@ import { AlbumPageComponent } from './album';
 import { MediaPageComponent } from './media';
 import {AboutPageComponent} from './about';
 export const ROUTES:Routes=[
-	{	path:'', 
+	{	path:'dashboard', 
 		component:DashboardComponent,
 		//canActivate: [CanActivateDashboard],
 		children:[

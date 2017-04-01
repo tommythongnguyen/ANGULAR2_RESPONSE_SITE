@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, PreloadingStrategy, PreloadAllModules } from '@angular/router';
 
 import { AdminModule } from './admin';
+import { DashboardModule } from './dashboard';
 import { AppComponent } from './app.component';
 
 import { ROUTES } from './app.routes';
@@ -21,7 +22,8 @@ import { ElementCalculation } from './shared';
     HttpModule,
 	RouterModule.forRoot(ROUTES, 
     {preloadingStrategy:PreloadAllModules}),
-	AdminModule
+	AdminModule,
+    DashboardModule
   ],
   providers: [ElementCalculation],
   bootstrap: [AppComponent]

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, Renderer2, ElementRef, OnDestroy, AfterViewInit} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, Renderer2, ElementRef, OnDestroy, AfterViewChecked, OnChanges, SimpleChanges} from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ElementCalculation } from '../../dom';
 type OVERLAY_SIZE = 'sm' | 'md' | 'lg';
@@ -6,12 +6,12 @@ type OVERLAY_SIZE = 'sm' | 'md' | 'lg';
 	selector: 'overlay',
 	styleUrls:['./overlay.component.scss'],
 	template:`
-        <div class="overlay-container {{_size}}" #overlay  [style.height.px]="height"
+        <section class="overlay-container {{_size}}" #overlay  [style.height.px]="height"
             		[style.display]="visible ? 'block' : 'none'" 
             		[@overlayState]="visible? 'show':'hide'"
-            		[loading]="visible" appendTo="body" (onBeforeClose)="closeOverlay()">
+            		[loading]="visible" (onBeforeClose)="closeOverlay()" appendTo="body" spinner="hide">
                 <ng-content></ng-content>
-        </div>
+        </section>
 	`,
 	animations: [
 		trigger('overlayState', [
@@ -21,8 +21,9 @@ type OVERLAY_SIZE = 'sm' | 'md' | 'lg';
 		])
 	]
 })
-export class OverlayComponent implements OnInit, AfterViewInit, OnDestroy{
+export class OverlayComponent implements OnInit, OnDestroy, OnChanges, AfterViewChecked {
 	private _isFistTime: boolean = true;
+	private _needCentering: boolean = false;
 	private _size:string = "overlay-md";
 
 	private _lastPageX: number;
@@ -51,15 +52,21 @@ export class OverlayComponent implements OnInit, AfterViewInit, OnDestroy{
 	constructor(private _renderer2: Renderer2, public _domCalculation: ElementCalculation) { }
 
 	ngOnInit() {}
-	ngAfterViewInit(){
-		//use to position the overlay
-		if(this._isFistTime){
-			this.centerOverlay(this.overlay.nativeElement);
-			this.registerEvents();
+	ngOnChanges(changes:SimpleChanges){
+		if(changes['visible'] && changes['visible'].currentValue && this._isFistTime){
+			this._needCentering = true;
 			this._isFistTime = false;
 		}
 	}
-	
+	ngAfterViewChecked(){
+		//to make sure the {{size}} that define the width of overlay binding to the template before doing calculation
+		if (this._needCentering) {
+			this.centerOverlay(this.overlay.nativeElement);
+			this.registerEvents();
+			this._needCentering = false;
+		}
+	}
+
 	closeOverlay():void{
 		this.onClose.emit({});
 	}
