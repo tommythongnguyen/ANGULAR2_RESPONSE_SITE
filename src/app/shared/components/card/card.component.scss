@@ -1,20 +1,44 @@
-.inner-card {
+@mixin box-shadow($top, $left, $blur, $spread, $color, $inset: false) {
+    @if $inset {
+        -webkit-box-shadow: inset $top $left $blur $spread $color;
+        -moz-box-shadow: inset $top $left $blur $spread $color;
+        box-shadow: inset $top $left $blur $spread $color;
+    }
+    @else {
+        -webkit-box-shadow: $top $left $blur $spread $color;
+        -moz-box-shadow: $top $left $blur $spread $color;
+        box-shadow: $top $left $blur $spread $color;
+    }
+}
+
+.active-card {
+    transform: scale(1.1);
+    @include box-shadow(0, 0, 18px, 2px, rgba(0, 0, 0, 0.4));
+}
+
+.card {
+    transition: all .2s ease-in-out; 
+    &:hover {
+        cursor: pointer !important;
+        @extend .active-card;
+    }
+    .inner-card {
     width: 90%;
     margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
     img {
         width: 100%;
-        &:hover {
-            cursor: pointer !important;
-        }
     }
     .card-title {
         font-size: 16px;
         color: darkcyan;
     }
-    .card-text{
+    .card-text {
         font-size: 15px;
-        color:gray;
+        color: gray;
     }
 }
+
+}
+

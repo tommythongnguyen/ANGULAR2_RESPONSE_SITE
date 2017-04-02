@@ -9,9 +9,9 @@ export interface ICard{
 	selector: 'card',
 	styleUrls:['./card.component.scss'],
 	template: `
-		<div class="card">
+		<div class="card"  (click)="selectCard()">
 			<div class="inner-card">
-			  <img class="card-img-top" src="{{card.img}}" alt="card.alt" (click)="selectCard()">
+			  <img class="card-img-top" src="{{card.img}}" alt="card.alt">
 			  <div class="card-block">
 			    <p class="card-title">{{card.title}}</p>
 			    <p class="card-text">{{card.text}}</p>
