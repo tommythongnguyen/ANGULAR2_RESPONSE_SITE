@@ -1,9 +1,9 @@
 {
   "response": [
     {
-      "title": "Christmas Album",
+      "title": "Alexander Rybak",
       "img": "./assets/graphics/media/christmasTales.jpg",
-      "description": "Christmas Tales is the fourth studio album and first Christmas album by the Belarusian-Norwegian artist Alexander Rybak, it released on the November 23, 2012 in Norway. It has peaked to number 34 on the Norwegian Albums Chart",
+      "text": "Christmas Tales is the fourth studio album and first Christmas album by the Belarusian-Norwegian artist Alexander Rybak, it released on the November 23, 2012 in Norway. It has peaked to number 34 on the Norwegian Albums Chart",
       "tracks": [
         {
           "name": "Let It Snow",
@@ -16,9 +16,9 @@
       ]
     },
     {
-      "title": "Westlife Album",
+      "title": "Westlife",
       "img": "./assets/graphics/media/westLife.jpg",
-      "description": "Greatest Hits is the second greatest hits album and final release by Irish boy band Westlife. It was released on 18 November 2011 by RCA Records and Sony Music",
+      "text": "Greatest Hits is the second greatest hits album and final release by Irish boy band Westlife. It was released on 18 November 2011 by RCA Records and Sony Music",
       "tracks": [
         {
           "name": "Seasons In The Sun",

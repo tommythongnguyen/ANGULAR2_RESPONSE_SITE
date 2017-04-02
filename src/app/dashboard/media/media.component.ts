@@ -21,12 +21,17 @@ import { Observable } from 'rxjs/Observable';
 			</section>
 
 			<ng-template #audioPlayerTempl let-list="list">
-						   <audio-player [tracks]="list[0].tracks"></audio-player>
+						   <audio-player [tracks]="selectedTracks"></audio-player>
+						   <article class="row justify-content-center trackAlbums">
+								<card *ngFor="let album of list" [card]="album" class="col-sm-5 col-lg-4" (onSelectCard)="switchAlbum($event)"></card>
+						   </article>
+						   
 			</ng-template>
 		</section>
 	`
 })
 export class MediaPageComponent implements OnInit, AfterViewInit {
+	public selectedTracks = [];
 	private _embededTemplf: TemplateRef<any>;
 	@ViewChild('audioPlayerTempl') audioPlayerTemplate: TemplateRef<any>;
 	isLoading = false;
@@ -55,9 +60,9 @@ export class MediaPageComponent implements OnInit, AfterViewInit {
 				.subscribe(
 				res => {
 					this.TabData = res;
-					console.log('tabData: ', res);
 					if (selectedTab.header === 'Collection') {
 						this._embededTemplf = this.audioPlayerTemplate;
+						this.selectedTracks = res[0].tracks;
 					} else {
 						this._embededTemplf = null;
 					}
@@ -67,8 +72,8 @@ export class MediaPageComponent implements OnInit, AfterViewInit {
 				)
 		}
 	}
-	selectCard(){
-		console.log('select card');
+	switchAlbum(album) {
+		this.selectedTracks = album.tracks;
 	}
 
 	private _extraCollectionData(res:any){
