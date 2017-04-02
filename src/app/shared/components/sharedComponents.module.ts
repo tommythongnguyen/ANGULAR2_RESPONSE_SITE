@@ -12,6 +12,7 @@ import { TabsComponent, TabComponent, TabContentComponent } from './tabs';
 import { CardComponent } from './card';
 import { OverlayComponent } from './overlay';
 import { AudioPlayerComponent } from './audio-player';
+import { VideoPlaylerComponent } from './video-player';
 const sharedDirective:any[]=[
     //AutoFocusDirective,
     LoadingDirective,
@@ -40,7 +41,9 @@ const sharedDirective:any[]=[
 
     OverlayComponent, 
 
-    AudioPlayerComponent
+    AudioPlayerComponent,
+
+    VideoPlaylerComponent
 ];
 const importModules:any[]=[
     CommonModule

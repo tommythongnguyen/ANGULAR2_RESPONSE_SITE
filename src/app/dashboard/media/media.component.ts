@@ -19,21 +19,30 @@ import { Observable } from 'rxjs/Observable';
 					<tab-content [list]="TabData" [templf]='_embededTemplf' [showLoading]="isLoading"></tab-content>
 				</tabs>
 			</section>
+		</section>
 
-			<ng-template #audioPlayerTempl let-list="list">
+		<ng-template #collectionTempl let-list="list">
 						   <audio-player [tracks]="selectedTracks"></audio-player>
 						   <article class="row justify-content-center trackAlbums">
 								<card *ngFor="let album of list" [card]="album" class="col-sm-5 col-lg-4" (onSelectCard)="switchAlbum($event)"></card>
-						   </article>
-						   
-			</ng-template>
-		</section>
+						   </article>   
+		</ng-template>
+
+		<ng-template #comedyTempl let-list="list">
+			<card *ngFor="let item of list" [card]="item" (onSelectCard)="selectClip($event)" class="col-sm-6 col-md-4"></card>
+			<overlay [visible]="isShowClip" (onClose)="isShowClip=false">
+				<video-player [list]="clip?clip.source:[]" [playable]="isShowClip"></video-player>   
+			</overlay>
+		</ng-template>
 	`
 })
-export class MediaPageComponent implements OnInit, AfterViewInit {
+export class MediaPageComponent implements OnInit{
+	isShowClip: boolean = false;
+	clip: any;
 	public selectedTracks = [];
 	private _embededTemplf: TemplateRef<any>;
-	@ViewChild('audioPlayerTempl') audioPlayerTemplate: TemplateRef<any>;
+	@ViewChild('collectionTempl') collectionTemplate: TemplateRef<any>;
+	@ViewChild('comedyTempl') comedyTemplate: TemplateRef<any>;
 	isLoading = false;
 	public tabList = [
 		{ header: 'Music' },
@@ -48,9 +57,6 @@ export class MediaPageComponent implements OnInit, AfterViewInit {
 	ngOnInit() {
 		this.selectTab(this.tabList[0]);
 	}
-	ngAfterViewInit(){
-		console.log('this is test: ', this.audioPlayerTemplate);
-	}
 	selectTab(selectedTab){
 		if(selectedTab.header !== this._activeTab){
 			this._activeTab = selectedTab.header;
@@ -61,9 +67,12 @@ export class MediaPageComponent implements OnInit, AfterViewInit {
 				res => {
 					this.TabData = res;
 					if (selectedTab.header === 'Collection') {
-						this._embededTemplf = this.audioPlayerTemplate;
+						this._embededTemplf = this.collectionTemplate;
 						this.selectedTracks = res[0].tracks;
-					} else {
+					} else if(selectedTab.header ==="Comedy") {
+						console.log('here');
+						this._embededTemplf = this.comedyTemplate;
+					}else{
 						this._embededTemplf = null;
 					}
 				},
@@ -75,7 +84,11 @@ export class MediaPageComponent implements OnInit, AfterViewInit {
 	switchAlbum(album) {
 		this.selectedTracks = album.tracks;
 	}
-
+	selectClip(clip){
+		console.log('clip:', clip);
+		this.clip = clip;
+		this.isShowClip = true;
+	}
 	private _extraCollectionData(res:any){
 
 	}

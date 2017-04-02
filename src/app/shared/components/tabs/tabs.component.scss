@@ -17,11 +17,13 @@ $tabBorder:rgb(55, 177, 213);
 
 ul.nav-tab-header {
     border-bottom-color: rgb(55, 177, 213);
-    li>span {
-        color: #337ab7;
+    li.nav-item {
         &:hover {
             @extend .activeTab;
             cursor: pointer;
+        }
+        span {
+            color: #337ab7;
         }
     }
 }
