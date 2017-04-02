@@ -18,7 +18,7 @@ interface IImage{
 	//changeDetection: ChangeDetectionStrategy.OnPush,
     template:`
 	<section>
-			<overlay [visible]="visible" (onClose)="closeSlideShow()" size="{{size}}">
+			<overlay [visible]="visible" (onClose)="closeSlideShow()" size="{{size}}" height='{{height}}'>
 				<section class="slide-show-header">
 					<span class="play-control" (click)="togglePlay()">
 						<img src="./assets/graphics/icons/next.png" alt="play" *ngIf="autoplay">

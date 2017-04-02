@@ -30,8 +30,8 @@ import { Observable } from 'rxjs/Observable';
 
 		<ng-template #comedyTempl let-list="list">
 			<card *ngFor="let item of list" [card]="item" (onSelectCard)="selectClip($event)" class="col-sm-6 col-md-4"></card>
-			<overlay [visible]="isShowClip" (onClose)="isShowClip=false">
-				<video-player [list]="clip?clip.source:[]" [playable]="isShowClip"></video-player>   
+			<overlay [visible]="isShowClip" (onClose)="isShowClip=false" height="500">
+				<video-player [list]="clip?clip.source:[]" [playable]="isShowClip" width="600px"></video-player>   
 			</overlay>
 		</ng-template>
 	`

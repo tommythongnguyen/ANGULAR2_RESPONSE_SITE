@@ -5,9 +5,8 @@ export interface IThumbnail{
 	alt?: string;
 }
 
-export class ThumbnailGalleryHeaderComponent{}
 @Component({
-	selector: 'thumbs-gallery',
+	selector: 'image-gallery',
 	styleUrls:['./gallery.component.scss'],
 	template:`
 		<section class="gallery-container" [loading]="showLoading" spinner="show">
@@ -22,7 +21,7 @@ export class ThumbnailGalleryHeaderComponent{}
 	`,
 	changeDetection:ChangeDetectionStrategy.OnPush
 })
-export class ThumbnailGalleryComponent implements OnInit {
+export class ImageGalleryComponent implements OnInit {
 	@Input() showLoading: boolean = false;
 	@Input() list: IThumbnail[] = [];
 	@Input() colums: string;

@@ -5,7 +5,7 @@ import {LoadingDirective} from './loading';
 import{TnHeaderComponent, TnFooterComponent,TnModalComponent, TnBodyComponent} from'./modal';
 import { PageTitleComponent, JumbotronComponent } from './jumbotron';
 import { CarouselComponent } from './carousel';
-import { ThumbnailGalleryComponent, ThumbnailGalleryHeaderComponent } from './imageGallery';
+import { ImageGalleryComponent} from './imageGallery';
 import { FlexImagesComponent } from './flexImages';
 import { SlideShowComponent } from './slideShow';
 import { TabsComponent, TabComponent, TabContentComponent } from './tabs';
@@ -27,7 +27,7 @@ const sharedDirective:any[]=[
     
     CarouselComponent,
 
-    ThumbnailGalleryComponent,
+    ImageGalleryComponent,
 
     FlexImagesComponent,
 

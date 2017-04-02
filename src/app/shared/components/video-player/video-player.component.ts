@@ -7,8 +7,8 @@ export interface ISource{
 	styleUrls:['./video-player.component.scss'],
 	changeDetection:ChangeDetectionStrategy.OnPush,
 	template:`
-		<section>
-			<video #player controls="controls">
+		<section class="video-container" [ngStyle]="{width: width? width:'100%', height: height?height:'100%'}">
+			<video #player controls="controls" width="100%" height="100%">
 			  <source *ngFor="let item of list" src="{{item.src}}" type="video/mp4">
 			  Your browser does not support HTML5 video.
 			</video>
@@ -17,6 +17,8 @@ export interface ISource{
 })
 export class VideoPlaylerComponent implements OnInit, OnChanges, AfterViewInit {
 	private _playing: boolean = false;
+	@Input() width: string;
+	@Input() height: string;
 	@Input() list: ISource[] = [];
 	@Input() playable: boolean = true;
 	@Output() onplaying: EventEmitter<ISource[]> = new EventEmitter<ISource[]>();

@@ -7,17 +7,17 @@
     </jumbotron>
 
     <section class="row justify-content-around">
-        <thumbs-gallery header="{{_albumTitle.family}}" [list]="familyAlbum" 
+        <image-gallery header="{{_albumTitle.family}}" [list]="familyAlbum" 
                         width="150" (onSelect)="selectThumbnail($event, 'family')" 
                         class="col-sm-5" colums="col-sm-6" 
                         [showLoading]="isLoading">
-        </thumbs-gallery>
+        </image-gallery>
 
-        <thumbs-gallery header="{{_albumTitle.vegas}}" [list]="lasVegasAlbum" 
+        <image-gallery header="{{_albumTitle.vegas}}" [list]="lasVegasAlbum" 
                         width="150" (onSelect)="selectThumbnail($event, 'vegas')"  
                         class="col-sm-5" colums="col-sm-6"
                          [showLoading]="isLoading">
-        </thumbs-gallery>
+        </image-gallery>
     </section>
 
     <slide-show [visible]="showModal" [displayImage]="selectedThumb" [imageList]="quickViewAblum" height="545" size="md" (onBeforeClose)="showModal=false">
