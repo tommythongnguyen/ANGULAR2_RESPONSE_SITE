@@ -50,6 +50,10 @@ export class AudioPlayerComponent implements OnInit, OnChanges, AfterViewInit{
 		this.player.nativeElement.play();
 	}
 	playNext(){
+		let currentIndex = this.tracks.findIndex(track => track.src === this.activeTrack.src);
+		if (currentIndex < this.tracks.length - 1){
+			this.switchTrack(this.tracks[++currentIndex]);
+		}
 		this._changeDetectorRef.detectChanges(); //kick off changeDetection for this component;
 	}
 	pause(){
