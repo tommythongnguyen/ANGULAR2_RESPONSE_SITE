@@ -29,20 +29,36 @@ import { Observable } from 'rxjs/Observable';
 		</ng-template>
 
 		<ng-template #comedyTempl let-list="list">
-			<card *ngFor="let item of list" [card]="item" (onSelectCard)="selectClip($event)" class="col-sm-6 col-md-4"></card>
-			<overlay [visible]="isShowClip" (onClose)="isShowClip=false" height="500">
-				<video-player [list]="clip?clip.source:[]" [playable]="isShowClip" width="600px"></video-player>   
+			<card *ngFor="let item of list" [card]="item" (onSelectCard)="selectVideo($event)" class="col-sm-6 col-md-4"></card>
+			<overlay [visible]="isShowVideo" (onClose)="isShowVideo=false" height="500">
+				<video-player [list]="clip?clip.source:[]" [playable]="isShowVideo" width="600px"></video-player>   
 			</overlay>
+		</ng-template>
+
+		<ng-template #otherTempl let-list="list">
+			<card *ngFor="let item of list" [card]="item" (onSelectCard)="selectClip($event)" class="col-sm-6 col-md-4"></card>	
+			<modal-cmp [visible]="isShowClip" (onCloseModal)="isShowClip=false">
+				<modal-header>
+					<p>{{selectedClip?.title}}</p>
+				</modal-header>
+					
+				<modal-body>
+					
+				</modal-body>
+			</modal-cmp>
 		</ng-template>
 	`
 })
 export class MediaPageComponent implements OnInit{
 	isShowClip: boolean = false;
-	clip: any;
+	isShowVideo: boolean = false;
+	selectedClip: any;
+	selectedVideo: any;
 	public selectedTracks = [];
 	private _embededTemplf: TemplateRef<any>;
 	@ViewChild('collectionTempl') collectionTemplate: TemplateRef<any>;
 	@ViewChild('comedyTempl') comedyTemplate: TemplateRef<any>;
+	@ViewChild('otherTempl') otherTemplate: TemplateRef<any>;
 	isLoading = false;
 	public tabList = [
 		{ header: 'Music' },
@@ -73,7 +89,7 @@ export class MediaPageComponent implements OnInit{
 						console.log('here');
 						this._embededTemplf = this.comedyTemplate;
 					}else{
-						this._embededTemplf = null;
+						this._embededTemplf = this.otherTemplate;
 					}
 				},
 				error => console.log('error'),
@@ -81,12 +97,16 @@ export class MediaPageComponent implements OnInit{
 				)
 		}
 	}
-	switchAlbum(album) {
+	switchAlbum(album:any) {
 		this.selectedTracks = album.tracks;
 	}
-	selectClip(clip){
-		console.log('clip:', clip);
-		this.clip = clip;
+	selectVideo(video:any) {
+		console.log('video:', video);
+		this.selectedVideo = video;
+		this.isShowVideo = true;
+	}
+	selectClip(clip:any){
+		this.selectedClip = clip;
 		this.isShowClip = true;
 	}
 	private _extraCollectionData(res:any){

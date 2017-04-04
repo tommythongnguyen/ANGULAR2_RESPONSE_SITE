@@ -27,7 +27,7 @@ interface ITab{
 			</ng-container>
 
 			<ng-container *ngIf="!templf">
-				<card *ngFor="let item of list" [card]="item" (onSelectCard)="selectItem($event)" class="col-sm-6 col-md-4"></card>
+				
 			</ng-container>
 		</div>
 	`

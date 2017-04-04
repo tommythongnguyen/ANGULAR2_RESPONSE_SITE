@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import{CommonModule} from '@angular/common';
 //import {AutoFocusDirective} from './autoFocus';
 import {LoadingDirective} from './loading';
-import{TnHeaderComponent, TnFooterComponent,TnModalComponent, TnBodyComponent} from'./modal';
+import{ModalHeaderComponent, ModalFooterComponent,ModalBodyComponent, ModalComponent} from'./modal';
 import { PageTitleComponent, JumbotronComponent } from './jumbotron';
 import { CarouselComponent } from './carousel';
 import { ImageGalleryComponent} from './imageGallery';
@@ -17,10 +17,10 @@ const sharedDirective:any[]=[
     //AutoFocusDirective,
     LoadingDirective,
 
-    TnHeaderComponent,
-    TnFooterComponent,
-    TnModalComponent,
-    TnBodyComponent,
+    ModalHeaderComponent,
+    ModalFooterComponent,
+    ModalComponent,
+    ModalBodyComponent,
 
     PageTitleComponent,
     JumbotronComponent,

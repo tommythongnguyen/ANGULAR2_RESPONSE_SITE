@@ -6,28 +6,35 @@ import { ElementCalculation } from '../../dom';
 type MODAL_WIDTH = 'sm' | 'md' | 'lg';
 type FOOTER_POSITION= 'flex-start' | 'center' | 'flex-end';
 @Component({
-    selector:'tn-header',
+    selector:'modal-header',
    template:`<ng-content></ng-content>`
 })
-export class TnHeaderComponent{
+export class ModalHeaderComponent{
     
 }
 
 @Component({
-    selector:'tn-body',
+    selector:'modal-body',
+    styles:[`
+        :host{
+            font-size: 18px;
+            color: dimgrey;
+            border:solid red 1px;
+        }
+    `],
     template:'<ng-content></ng-content>'
 })
-export class TnBodyComponent{}
+export class ModalBodyComponent{}
 
 @Component({
-    selector:'tn-footer',
+    selector:'modal-footer',
     template:'<ng-content></ng-content>'
 })
-export class TnFooterComponent{}
+export class ModalFooterComponent{}
 
 @Component({
-    selector:'modal',
-    exportAs:'tnModal',
+    selector:'modal-cmp',
+    exportAs:'modal',
     styleUrls: ['./modal.component.scss'],
     encapsulation: ViewEncapsulation.Emulated,
     animations: [
@@ -38,29 +45,29 @@ export class TnFooterComponent{}
         ])
     ],
     template:`
-         <div #container role="dialog" [style.display]="visible ? 'block' : 'none'"
+         <div role="dialog" [style.display]="visible ? 'block' : 'none'"
             [@modalState]="visible? 'show':'hide'" [loading]="visible" appendTo="body" (onBeforeClose)="onClose()">
             <div class="modal-container" #modal  [style.height.px]="height" (mousedown)="startDrag($event)" (mouseup)="endDrag($event)" >
-                <div class="">
+                <div class="modal-header-container">
                     <h4 class="modal-title">
                         <h5 *ngIf="!header">Modal title</h5>
-                        <ng-content select="tn-header"></ng-content>    
+                        <ng-content select="modal-header"></ng-content>    
                     </h4>
-                    <button type="button" class="close" aria-label="Close" (click)="onClose()">&times;</button>
+                    <button type="button" *ngIf="dismissable" class="close closeBtn" aria-label="Close" (click)="onClose()">&times;</button>
                 </div>
 
-                <div class="modal-body">
-                    <ng-content select="tn-body"></ng-content>
+                <div class="modal-body-container">
+                    <ng-content select="modal-body"></ng-content>
                 </div>
-                <div class="" [style.justifyContent]="footerAlign">
-                    <!--button *ngIf="!footer" class="btn btn-default" (click)="onClose()">Close</button-->
-                    <ng-content select="tn-footer"></ng-content>
+                <div class="modal-footer-container" [style.justifyContent]="footerAlign">
+                    <button *ngIf="!footer" class="btn btn-info" (click)="onClose()">Close</button>
+                    <ng-content select="modal-footer"></ng-content>
                 </div> 
             </div>
         </div>
     `
 })
-export class TnModalComponent implements AfterViewInit, AfterViewChecked, OnDestroy{
+export class ModalComponent implements AfterViewInit, AfterViewChecked, OnDestroy{
     private isFistTime: boolean = true;
     private _width = 'modal-md';
     private _visible:boolean =false;
@@ -78,13 +85,13 @@ export class TnModalComponent implements AfterViewInit, AfterViewChecked, OnDest
 
     @Output()onBeforeShow:EventEmitter<any>= new EventEmitter<any>();
     @Output()onAfterShow:EventEmitter<any>= new EventEmitter<any>();
-    @Output('close')onCloseModal: EventEmitter<any> = new EventEmitter<any>();
+    @Output()onCloseModal: EventEmitter<any> = new EventEmitter<any>();
 
-    @ViewChild('container')hostContainer: ElementRef;
     @ViewChild('modal')modal: ElementRef;
-    @ContentChild(TnHeaderComponent) header;
-    @ContentChild(TnFooterComponent)footer;
+    @ContentChild(ModalHeaderComponent) header;
+    @ContentChild(ModalFooterComponent)footer;
 
+    @Input() dismissable: boolean = true;//default value
     @Input() draggable: boolean = true;
     @Input() footerAlign: FOOTER_POSITION = 'flex-start';
     @Input() backdrop: boolean = true;
@@ -150,6 +157,7 @@ export class TnModalComponent implements AfterViewInit, AfterViewChecked, OnDest
     }
 
     onClose():any{
+        console.log('click');
         this.onCloseModal.emit(false);
     }
      
