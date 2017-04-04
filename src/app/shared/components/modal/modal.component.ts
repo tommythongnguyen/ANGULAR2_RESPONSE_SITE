@@ -7,21 +7,27 @@ type MODAL_WIDTH = 'sm' | 'md' | 'lg';
 type FOOTER_POSITION= 'flex-start' | 'center' | 'flex-end';
 @Component({
     selector:'modal-header',
-   template:`<ng-content></ng-content>`
+    styles:[`
+        section.header{
+           font-size: 18px;
+            color: dimgrey;
+            margin-top:5px;
+            padding-left:10px;
+            border-bottom: solid lightgray 1px;
+        }
+    `],
+   template:`
+    <section class="header">
+       <ng-content></ng-content>
+    </section>`
+
 })
 export class ModalHeaderComponent{
     
 }
 
 @Component({
-    selector:'modal-body',
-    styles:[`
-        :host{
-            font-size: 18px;
-            color: dimgrey;
-            border:solid red 1px;
-        }
-    `],
+    selector:'modal-body', 
     template:'<ng-content></ng-content>'
 })
 export class ModalBodyComponent{}
