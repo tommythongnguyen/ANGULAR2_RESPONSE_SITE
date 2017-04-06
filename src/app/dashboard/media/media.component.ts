@@ -1,8 +1,10 @@
-import { Component, OnInit , ViewChild, AfterViewInit, TemplateRef} from '@angular/core';
+import { Component, OnInit , ViewChild, AfterViewInit, TemplateRef, ChangeDetectionStrategy} from '@angular/core';
 import { DashboardHttpService } from '../services';
 import { Observable } from 'rxjs/Observable';
+import {DomSanitizer} from '@angular/platform-browser';
 @Component({
 	selector: 'media-page',
+	//changeDetection:ChangeDetectionStrategy.OnPush,
 	styleUrls:['./media.component.scss'],
 	template:`
 		<section>
@@ -31,19 +33,21 @@ import { Observable } from 'rxjs/Observable';
 		<ng-template #comedyTempl let-list="list">
 			<card *ngFor="let item of list" [card]="item" (onSelectCard)="selectVideo($event)" class="col-sm-6 col-md-4"></card>
 			<overlay [visible]="isShowVideo" (onClose)="isShowVideo=false" height="500">
-				<video-player [list]="clip?clip.source:[]" [playable]="isShowVideo" width="600px"></video-player>   
+				<video-player [list]="selectedVideo?.source" [playable]="isShowVideo" width="600px"></video-player>   
 			</overlay>
 		</ng-template>
 
 		<ng-template #otherTempl let-list="list">
 			<card *ngFor="let item of list" [card]="item" (onSelectCard)="selectClip($event)" class="col-sm-6 col-md-4"></card>	
-			<modal-cmp [visible]="isShowClip" (onCloseModal)="isShowClip=false">
+			<modal-cmp [visible]="isShowClip" (onCloseModal)="isShowClip=false" height="560">
 				<modal-header>
 					<p>{{selectedClip?.title}}</p>
 				</modal-header>
 					
 				<modal-body>
-					
+					<iframe [src]='sanitizedClipUrl' width="100%" height="100%"frameborder="0"
+        				webkitallowfullscreen mozallowfullscreen allowfullscreen>
+   					</iframe>
 				</modal-body>
 			</modal-cmp>
 		</ng-template>
@@ -51,6 +55,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class MediaPageComponent implements OnInit{
 	isShowClip: boolean = false;
+	sanitizedClipUrl: any;
 	isShowVideo: boolean = false;
 	selectedClip: any;
 	selectedVideo: any;
@@ -68,7 +73,8 @@ export class MediaPageComponent implements OnInit{
 	]
 	public TabData;
 	private _activeTab: string;
-	constructor(private _dashboardHttpService: DashboardHttpService) { }
+	constructor(private _dashboardHttpService: DashboardHttpService,
+				private sanitizer:DomSanitizer) { }
 
 	ngOnInit() {
 		this.selectTab(this.tabList[0]);
@@ -108,6 +114,14 @@ export class MediaPageComponent implements OnInit{
 	selectClip(clip:any){
 		this.selectedClip = clip;
 		this.isShowClip = true;
+		this.sanitizedClipUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.selectedClip.src);
+	}
+
+	clipUrl(clip:any):any{
+		if(clip){
+			//return this._domSanitizer.bypassSecurityTrustResourceUrl(clip.url);
+		}
+		
 	}
 	private _extraCollectionData(res:any){
 

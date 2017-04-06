@@ -1,6 +1,5 @@
 import { Component, ViewContainerRef, ElementRef, Renderer2, ViewEncapsulation, Input, Output, ChangeDetectionStrategy, OnChanges, SimpleChanges, EventEmitter} from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { TnModalComponent } from '../modal';
 import { ElementCalculation } from '../../dom';
 import { FlexImagesComponent } from '../flexImages';
 
@@ -37,7 +36,6 @@ interface IImage{
 										position="center" interval="2000" [autoplay]="autoplay"
 										(onSelectImage)="changeSlideShowImage($event)"></flex-images>
 					</ng-container>
-					<ng-content select="tn-footer"></ng-content>
 				</section>
     		</overlay>
     	</section>`	

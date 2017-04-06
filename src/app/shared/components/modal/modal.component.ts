@@ -9,11 +9,11 @@ type FOOTER_POSITION= 'flex-start' | 'center' | 'flex-end';
     selector:'modal-header',
     styles:[`
         section.header{
-           font-size: 18px;
+            font-size: 18px;
             color: dimgrey;
             margin-top:5px;
             padding-left:10px;
-            border-bottom: solid lightgray 1px;
+            border-bottom: solid lightgray 2px;
         }
     `],
    template:`
@@ -66,7 +66,7 @@ export class ModalFooterComponent{}
                     <ng-content select="modal-body"></ng-content>
                 </div>
                 <div class="modal-footer-container" [style.justifyContent]="footerAlign">
-                    <button *ngIf="!footer" class="btn btn-info" (click)="onClose()">Close</button>
+                    <button *ngIf="!footer" class="btn btn-info closeBtn" (click)="onClose()">Close</button>
                     <ng-content select="modal-footer"></ng-content>
                 </div> 
             </div>
@@ -101,7 +101,7 @@ export class ModalComponent implements AfterViewInit, AfterViewChecked, OnDestro
     @Input() draggable: boolean = true;
     @Input() footerAlign: FOOTER_POSITION = 'flex-start';
     @Input() backdrop: boolean = true;
-    @Input() height: number;//custom height
+    @Input() height: string;//custom height
     @Input() set width(value: string) {
         if(value ==='lg'){
             this._width = "modal-lg";
