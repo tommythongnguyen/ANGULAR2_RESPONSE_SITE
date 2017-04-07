@@ -45,7 +45,7 @@ import { Observable } from 'rxjs/Observable';
 				</modal-header>
 					
 				<modal-body>
-					<youtube-player [url]="selectedClip?.src" (onNext)="getNextClip($event)" (onPrev)="getPrevClip($event)"></youtube-player>
+					<youtube-player [url]="selectedClip?.src" [pausible]="!isShowClip"(onNext)="getNextClip($event)" (onPrev)="getPrevClip($event)"></youtube-player>
 				</modal-body>
 			</modal-cmp>
 		</ng-template>

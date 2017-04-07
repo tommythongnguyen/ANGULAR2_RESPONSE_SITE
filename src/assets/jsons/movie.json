@@ -1,25 +1,25 @@
 {
   "response": [
     {
-      "src": "https://www.youtube.com/embed/Xdv83MFJd7U",
+      "src": "https://www.youtube.com/embed/d1_JBMrrYw8",
       "title": "Avatar",
       "img": "./assets/graphics/media/avatar.jpg",
       "alt": "Avatar"
     },
     {
-      "src": "https://www.youtube.com/embed/b_ILDFp5DGA",
+      "src": "https://www.youtube.com/embed/mXxT9h78OkE",
       "title": "Snow White And Huntsman",
       "img": "./assets/graphics/media/snowWhiteAndHuntsman.jpg",
       "alt": "Snow White And Huntsman"
     },
     {
-      "src": "https://www.youtube.com/embed/2Abk1jAONjw",
+      "src": "https://www.youtu.be/eOrNdBpGMv8",
       "title": "Avengers",
       "img": "./assets/graphics/media/theAvengers.jpg",
       "alt": "Avengers"
     },
     {
-      "src": "https://www.youtube.com/embed/BWf-eARnf6U",
+      "src": "https://www.youtube.com/embed/n-7K_OjsDCQ",
       "title": "Hunger Games",
       "img": "./assets/graphics/media/theHungerGames.jpg",
       "alt": "Hunger Games"
