@@ -85,11 +85,13 @@ export class CarouselComponent implements AfterViewChecked , OnDestroy, OnChange
 		this.startTimer();
 	}
 	goPrev(){
+		this.resetTimer();
 		this._activeSlideId = this.cycleToPrev(this._activeSlideId);
 		this.left = - this._activeSlideId * 100;
 		this.triggerChangeDectection();
 	}
 	goNext(){
+		this.resetTimer();
 		this._activeSlideId = this.cycleToNext(this._activeSlideId);
 		this.left = - this._activeSlideId * 100;
 		this.triggerChangeDectection();

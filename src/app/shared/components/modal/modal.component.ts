@@ -1,9 +1,9 @@
-import {Component, ViewContainerRef, ElementRef, ViewChild, ContentChild, AfterViewInit, AfterViewChecked,Input, Output, Renderer2, EventEmitter, ViewEncapsulation, OnDestroy} from '@angular/core';
+import {Component, ElementRef, ViewChild, ContentChild, AfterViewInit, 
+        AfterViewChecked,Input, Output, Renderer2, EventEmitter, ViewEncapsulation, 
+        OnDestroy, OnChanges, SimpleChanges} from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ElementCalculation } from '../../dom';
 
-
-type MODAL_WIDTH = 'sm' | 'md' | 'lg';
 type FOOTER_POSITION= 'flex-start' | 'center' | 'flex-end';
 @Component({
     selector:'modal-header',
@@ -51,9 +51,10 @@ export class ModalFooterComponent{}
         ])
     ],
     template:`
-         <div role="dialog" [style.display]="visible ? 'block' : 'none'"
-            [@modalState]="visible? 'show':'hide'" [loading]="visible" appendTo="body" (onBeforeClose)="onClose()">
-            <div class="modal-container" #modal  [style.height.px]="height" (mousedown)="startDrag($event)" (mouseup)="endDrag($event)" >
+         <div role="dialog" [style.display]="visible ? 'block' : 'none'" [@modalState]="visible? 'show':'hide'" 
+                             [loading]="visible" appendTo="body" (onBeforeClose)="onClose()">
+
+            <div class="modal-container {{_size}}" #modal  [style.height.px]="height"  >
                 <div class="modal-header-container">
                     <h4 class="modal-title">
                         <h5 *ngIf="!header">Modal title</h5>
@@ -73,24 +74,22 @@ export class ModalFooterComponent{}
         </div>
     `
 })
-export class ModalComponent implements AfterViewInit, AfterViewChecked, OnDestroy{
-    private isFistTime: boolean = true;
-    private _width = 'modal-md';
-    private _visible:boolean =false;
-    private _hostElement:HTMLElement;
+export class ModalComponent implements AfterViewChecked, OnDestroy, OnChanges{
+    private _isFistTime: boolean = true;
+    private _needCentering: boolean = false;
+    private _size = 'modal-md';
     private _initialPosition:boolean =false;
 
     public shown:boolean=false;
-    public modalMask: HTMLDivElement;
-    private modalMaskClickListener: Function;
-    private modalDragListener: Function;
+   
+    private startDragListener: Function;
+    private onDragListener: Function;
+    private endDragListener: Function;
 
     private _lastPageX: number;
     private _lastPageY: number;
     private _dragging: boolean = false;
 
-    @Output()onBeforeShow:EventEmitter<any>= new EventEmitter<any>();
-    @Output()onAfterShow:EventEmitter<any>= new EventEmitter<any>();
     @Output()onCloseModal: EventEmitter<any> = new EventEmitter<any>();
 
     @ViewChild('modal')modal: ElementRef;
@@ -100,75 +99,44 @@ export class ModalComponent implements AfterViewInit, AfterViewChecked, OnDestro
     @Input() dismissable: boolean = true;//default value
     @Input() draggable: boolean = true;
     @Input() footerAlign: FOOTER_POSITION = 'flex-start';
-    @Input() backdrop: boolean = true;
-    @Input() height: string;//custom height
-    @Input() set width(value: string) {
+    @Input() visible: boolean = false;
+    @Input() height: number;//custom height
+    @Input() set size(value: string) {
         if(value ==='lg'){
-            this._width = "modal-lg";
+            this._size = "modal-lg";
         }else if(value ==='sm'){
-            this._width = 'modal-sm';
-        }else{
-            this._width = 'modal-md';
+            this._size = 'modal-sm';
         }
     }
-    get width():string{
-        return this._width;
+    get size():string{
+        return this._size;
     }
 
-    @Input()get visible():boolean{
-        return this._visible;
-    }
-    set visible(value:boolean){
-        this._visible =value;
-        if(value){
-            //just sent value to show later in the afterViewChecked Lifecycle hook
-            this.shown =value;
-            this.onBeforeShow.emit({});
+    constructor( public _renderer2: Renderer2, public _domCalculation: ElementCalculation) { }
+
+    ngOnChanges(changes:SimpleChanges){
+        if (changes['visible'] && changes['visible'].currentValue && this._isFistTime){
+            this._isFistTime = false;
+            this._needCentering = true;
         }
-    }
-    constructor(
-        public _viewContainRef:ViewContainerRef, 
-        public _elementRef:ElementRef, 
-        public _renderer: Renderer2,
-        public _domCalculation: ElementCalculation) { }
-
-    ngAfterViewInit(){ //this lifecycle hook only run at the time ; so it is good to create mask
-        //add width to modal
-        this._renderer.addClass(this.modal.nativeElement, this.width);
-
-        this.onAfterShow.emit({});
-        this.registerEvents();
     }
    
     //---this is phase when the view is already checked and all bindings has been resolved
     ngAfterViewChecked() {
-        if (this.shown) {//since this cycle will be checked every single changeDectection, will only show if shown is true
-           // this.showModalMask();
-            this.onAfterShow.emit({});
-            this.shown = false;
-
-            if (this.isFistTime) {
-                //adjust modal position
-                this.centerPositionModal(this.modal.nativeElement);
-                this.isFistTime = false;
-            }
+        if (this._needCentering) {
+            this.centerModal(this.modal.nativeElement);
+            this.registerEvents();
+            this._needCentering = false;
         }
     }
-
-    ngOnDestroy() {
-        if (this.modalDragListener){
-            this.modalDragListener();
-            this.modalDragListener = null;
-        }
-    }
-
     onClose():any{
-        console.log('click');
         this.onCloseModal.emit(false);
     }
      
     registerEvents():void{
-        this.modalDragListener = this._renderer.listen(this.modal.nativeElement,'mousemove',this.onDrag.bind(this))
+        this.startDragListener = this._renderer2.listen(this.modal.nativeElement, 'mousedown', this.startDrag.bind(this));
+        this.onDragListener    = this._renderer2.listen(this.modal.nativeElement, 'mousemove', this.onDrag.bind(this));
+        this.endDragListener   = this._renderer2.listen(this.modal.nativeElement, 'mouseup', this.endDrag.bind(this));
     }
     startDrag($event:any):void{
         if(this.draggable && $event.buttons && $event.buttons ===1){//left button 
@@ -186,8 +154,8 @@ export class ModalComponent implements AfterViewInit, AfterViewChecked, OnDestro
             let leftPos = parseInt(this.modal.nativeElement.style.left) +diffX;
             let topPos = parseInt(this.modal.nativeElement.style.top) + diffY;
 
-            this._renderer.setStyle(this.modal.nativeElement, 'left', leftPos+'px');
-            this._renderer.setStyle(this.modal.nativeElement, 'top', topPos+'px');
+            this._renderer2.setStyle(this.modal.nativeElement, 'left', leftPos+'px');
+            this._renderer2.setStyle(this.modal.nativeElement, 'top', topPos+'px');
 
             this._lastPageX = $event.pageX;
             this._lastPageY = $event.pageY;
@@ -196,16 +164,28 @@ export class ModalComponent implements AfterViewInit, AfterViewChecked, OnDestro
 
     endDrag(){
         this._dragging = false;
-        this.modalDragListener = null;
+        this.onDragListener();
     }
    
-    public centerPositionModal(element:HTMLElement){
+    public centerModal(element: HTMLElement) {
         let width = this._domCalculation.getOuterWidth(element);
         let height = this._domCalculation.getOuterHeight(element);
         let viewport = this._domCalculation.getViewport();
         let left = (viewport.width - width)/2;
         let top =(viewport.height - height)/2; 
-        this._renderer.setStyle(element,'left',left+'px');
-        this._renderer.setStyle(element,'top',top +'px');
+        this._renderer2.setStyle(element,'left',left+'px');
+        this._renderer2.setStyle(element,'top',top +'px');
+    }
+
+    destroyEventListener(listenerFn: Function) {
+        if (listenerFn) {
+            listenerFn();
+        }
+    }
+
+    ngOnDestroy() {
+        this.destroyEventListener(this.startDragListener);
+        this.destroyEventListener(this.onDragListener);
+        this.destroyEventListener(this.endDragListener);
     }
 }

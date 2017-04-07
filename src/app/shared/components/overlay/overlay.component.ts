@@ -118,12 +118,11 @@ export class OverlayComponent implements OnInit, OnDestroy, OnChanges, AfterView
 	destroyEventListener(listenerFn:Function){
 		if (listenerFn) {
 			listenerFn();
-			listenerFn = null;
 		}
 	}
 
 	ngOnDestroy(){
-		this.destroyEventListener(this.onDragListener);
+		this.destroyEventListener(this.startDragListener);
 		this.destroyEventListener(this.onDragListener);
 		this.destroyEventListener(this.endDragListener);
 	}
