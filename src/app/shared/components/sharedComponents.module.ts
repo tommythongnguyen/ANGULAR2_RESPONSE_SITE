@@ -13,6 +13,7 @@ import { CardComponent } from './card';
 import { OverlayComponent } from './overlay';
 import { AudioPlayerComponent } from './audio-player';
 import { VideoPlaylerComponent } from './video-player';
+import {YoutubePlayerComponent} from './youtube-player';
 const sharedDirective:any[]=[
     //AutoFocusDirective,
     LoadingDirective,
@@ -43,7 +44,9 @@ const sharedDirective:any[]=[
 
     AudioPlayerComponent,
 
-    VideoPlaylerComponent
+    VideoPlaylerComponent,
+
+    YoutubePlayerComponent
 ];
 const importModules:any[]=[
     CommonModule

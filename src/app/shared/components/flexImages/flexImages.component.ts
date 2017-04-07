@@ -110,12 +110,8 @@ export class FlexImagesComponent implements OnChanges, AfterContentInit, OnDestr
 		this.stopTimer();
 	}
 	registerEvents():void{
-		this._renderer2.listen(this.flexContainer.nativeElement, 'mouseover', ()=>{
-			this.onMouseOver(event);
-		});
-		this._renderer2.listen(this.flexContainer.nativeElement, 'mouseout', ()=>{
-			this.onMouseOut(event);
-		});
+		this._renderer2.listen(this.flexContainer.nativeElement, 'mouseover',this.onMouseOver.bind(this));
+		this._renderer2.listen(this.flexContainer.nativeElement, 'mouseout', this.onMouseOut.bind(this));
 	}
 
 	onMouseOver(event:any):void{

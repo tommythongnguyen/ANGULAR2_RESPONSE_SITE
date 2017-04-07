@@ -38,7 +38,6 @@ export class VideoPlaylerComponent implements OnInit, OnChanges, AfterViewInit {
 				}
 				
 			}else{
-				console.log('autoplay false:', this.playable);
 				if (this.videoPlayer && this._playing){
 					this.pause();
 				}

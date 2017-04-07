@@ -1,7 +1,7 @@
 import { Component, OnInit , ViewChild, AfterViewInit, TemplateRef, ChangeDetectionStrategy} from '@angular/core';
 import { DashboardHttpService } from '../services';
 import { Observable } from 'rxjs/Observable';
-import {DomSanitizer} from '@angular/platform-browser';
+
 @Component({
 	selector: 'media-page',
 	//changeDetection:ChangeDetectionStrategy.OnPush,
@@ -45,9 +45,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 				</modal-header>
 					
 				<modal-body>
-					<iframe [src]='sanitizedClipUrl' width="100%" height="100%"frameborder="0"
-        				webkitallowfullscreen mozallowfullscreen allowfullscreen>
-   					</iframe>
+					<youtube-player [url]="selectedClip?.src" (onNext)="getNextClip($event)" (onPrev)="getPrevClip($event)"></youtube-player>
 				</modal-body>
 			</modal-cmp>
 		</ng-template>
@@ -55,7 +53,6 @@ import {DomSanitizer} from '@angular/platform-browser';
 })
 export class MediaPageComponent implements OnInit{
 	isShowClip: boolean = false;
-	sanitizedClipUrl: any;
 	isShowVideo: boolean = false;
 	selectedClip: any;
 	selectedVideo: any;
@@ -73,8 +70,7 @@ export class MediaPageComponent implements OnInit{
 	]
 	public TabData;
 	private _activeTab: string;
-	constructor(private _dashboardHttpService: DashboardHttpService,
-				private sanitizer:DomSanitizer) { }
+	constructor(private _dashboardHttpService: DashboardHttpService) { }
 
 	ngOnInit() {
 		this.selectTab(this.tabList[0]);
@@ -114,16 +110,22 @@ export class MediaPageComponent implements OnInit{
 	selectClip(clip:any){
 		this.selectedClip = clip;
 		this.isShowClip = true;
-		this.sanitizedClipUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.selectedClip.src);
 	}
 
-	clipUrl(clip:any):any{
-		if(clip){
-			//return this._domSanitizer.bypassSecurityTrustResourceUrl(clip.url);
+	getNextClip(currentClipUrl:any){
+		for(let i in this.TabData){
+			if ((this.TabData[i].src === currentClipUrl)&& (Number(i) < this.TabData.length-1)) {
+				this.selectedClip = this.TabData[Number(i) + 1];
+				break;
+			}
 		}
-		
 	}
-	private _extraCollectionData(res:any){
-
+	getPrevClip(currentClipUrl: any) {
+		for (let i in this.TabData) {
+			if ((this.TabData[i].src === currentClipUrl) && (Number(i) > 0)) {
+				this.selectedClip = this.TabData[Number(i) - 1];
+				break;
+			}
+		}
 	}
 }
