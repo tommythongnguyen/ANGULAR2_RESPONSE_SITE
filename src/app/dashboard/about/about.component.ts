@@ -4,8 +4,12 @@ import { Component, OnInit } from '@angular/core';
 	selector: 'about-page',
 	template:`
 		<section>
-			<overlay [visible]="isShow" (onClose)="isToggle()"></overlay>
-			<button (click)="isToggle()">Show</button>
+			<jumbotron side="center">
+		        <page-title title="About"></page-title>
+		        <section class=".jumb-body">
+		            <img src="./assets/graphics/background/aboutme.jpg" width="100%">
+		        </section>
+		    </jumbotron>
 		</section>
 	`
 })

@@ -6,7 +6,7 @@ type OVERLAY_SIZE = 'sm' | 'md' | 'lg';
 	selector: 'overlay',
 	styleUrls:['./overlay.component.scss'],
 	template:`
-        <section class="overlay-container {{_size}}" #overlay  [style.height.px]="height"
+        <section class="overlay-container {{size}}" #overlay  [style.height.px]="height"
             		[style.display]="visible ? 'block' : 'none'" 
             		[@overlayState]="visible? 'show':'hide'"
             		[loading]="visible" (onBeforeClose)="closeOverlay()" appendTo="body" spinner="hide">
@@ -22,17 +22,17 @@ type OVERLAY_SIZE = 'sm' | 'md' | 'lg';
 	]
 })
 export class OverlayComponent implements OnInit, OnDestroy, OnChanges, AfterViewChecked {
-	private _isFistTime: boolean = true;
-	private _needCentering: boolean = false;
-	private _size:string = "overlay-md";
+	public _isFistTime: boolean = true;
+	public _needCentering: boolean = false;
+	public _size:string = "overlay-md";
 
-	private _lastPageX: number;
-	private _lastPageY: number;
-	private _dragging: boolean = false;
+	public _lastPageX: number;
+	public _lastPageY: number;
+	public _dragging: boolean = false;
 
-	private startDragListener: Function;
-	private onDragListener: Function;
-	private endDragListener: Function;
+	public startDragListener: Function;
+	public onDragListener: Function;
+	public endDragListener: Function;
 
 	@ViewChild("overlay") overlay: ElementRef;
 	@Output() onClose: EventEmitter<any> = new EventEmitter<any>();
@@ -49,7 +49,7 @@ export class OverlayComponent implements OnInit, OnDestroy, OnChanges, AfterView
 	get size(): string {
 		return this._size;
 	}
-	constructor(private _renderer2: Renderer2, public _domCalculation: ElementCalculation) { }
+	constructor(public _renderer2: Renderer2, public _domCalculation: ElementCalculation) { }
 
 	ngOnInit() {}
 	ngOnChanges(changes:SimpleChanges){

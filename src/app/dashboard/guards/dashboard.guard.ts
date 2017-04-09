@@ -13,8 +13,6 @@ export class CanActivateDashboard implements CanActivate{
 									  .map(logined=>{
 										  if (!logined){
 										  	//reroute to login page
-											  console.log('in');
-
 											  this._router.navigate(['/admin/login']);
 											  return false;
 										  }

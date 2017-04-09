@@ -4,7 +4,7 @@ import { RouterModule} from '@angular/router';
 import { Http } from '@angular/http';
 //-----import shared Component-----------
 import { SharedComponentModule } from '../shared';
-
+import {DemoPageModule} from './demo';
 //-----import Dashboard ROUTES---------
 import { ROUTES } from './dashboard.routes';
 
@@ -36,7 +36,8 @@ const directives = [
 	imports:[
 		CommonModule,
 		RouterModule.forChild(ROUTES),
-		SharedComponentModule
+		SharedComponentModule,
+		DemoPageModule
 	],
 	providers: [
 		DashboardDataService,
