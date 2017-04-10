@@ -1,15 +1,24 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-//import {RouterModule} from '@angular/router';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {DemoPageComponent} from './demo-page.component';
+import { Ng2ComboboxComponent } from './combobox';
+import { ItemFilterPipe } from './pipes';
 
-
+const directives =[
+	DemoPageComponent,
+	Ng2ComboboxComponent,
+	ItemFilterPipe
+]
 @NgModule({
-	declarations:[
-		DemoPageComponent
-	],
+	declarations:[...directives],
 	imports:[
-		CommonModule
+		CommonModule,
+		FormsModule,
+		ReactiveFormsModule,
+		BrowserAnimationsModule
 	]
 })
+
 export class DemoPageModule{}
