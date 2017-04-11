@@ -5,7 +5,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 	template:`
 		<form [formGroup]="myForm" (ngSubmit)="submitForm(myForm.value)">
 			<ng2-combobox [options]="comboboxOptions" formControlName="combo"
-					label="Choose" width="120px" [open]="isOpen" [filterable]="true" filterField="label"
+					label="Choose" width="120px" [open]="isOpen" [filterable]="true" 
 					(onselect)=selectOption($event) (onToggle)="isOpen = !isOpen"></ng2-combobox>
 			<button type="submit">Submit</button>
 		</form>

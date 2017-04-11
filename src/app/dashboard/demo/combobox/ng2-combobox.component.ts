@@ -24,7 +24,7 @@ export const COMBOBOX_VALUE_ACCESSOR:any ={
 			  		[@dropdownState]="_toggleMenu? 'visible':'hidden'" [style.width]="_width">
 			  	<input #optionFilter type="text" *ngIf="filterable" class="filter-input" (input)=" _filteredValue = $event.target.value">
 			  	<div>
-					<button class="dropdown-item" *ngFor ="let option of options | ItemFilterPipe: _filteredValue: filterField" 
+					<button class="dropdown-item" *ngFor ="let option of options | ItemFilterPipe: _filteredValue: field" 
 			  			(click)="selectOption(option)" [class.active-selection]="_selectOption?.value === option.value">
 			  		{{option.label}}
 			  	</button>
@@ -44,6 +44,7 @@ export const COMBOBOX_VALUE_ACCESSOR:any ={
 	providers:[COMBOBOX_VALUE_ACCESSOR]
 })
 export class Ng2ComboboxComponent implements OnInit, OnChanges, AfterViewInit, ControlValueAccessor{
+	private _filterField: string = '';
 	private _filteredValue: string = '';
 	private _width: string;
 	private _selectOption: IOption;
@@ -59,7 +60,12 @@ export class Ng2ComboboxComponent implements OnInit, OnChanges, AfterViewInit, C
 	@Input() stayOpen: boolean = false; //will open the combobox menu forever
 	@Input() open: boolean = false;// allow user to open the combobox menu from outside
 	@Input() filterable: boolean = false;// allow filter the options
-	@Input() filterField: string = '';// the field which we would like to apply the filter
+	@Input() set field(value: string) {// the field which we would like to apply the filter
+		this._filterField = value;
+	}
+	get field(): string {
+		return this._filterField;
+	}
 	@Input() set width(value:string){ //fixed width for combobox
 		this._width = value;
 		console.log('this._width :', this._width);
