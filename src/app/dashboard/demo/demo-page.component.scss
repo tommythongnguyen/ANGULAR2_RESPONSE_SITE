@@ -1,0 +1,23 @@
+.templ-option{
+	height: 40px;
+    padding-top: 7px;
+	.cropText {
+        overflow: hidden;
+        white-space: nowrap;
+        /* Don't forget this one */
+        text-overflow: ellipsis;
+        display: inline-block;
+    	width: 75%;
+    	margin-left:11px;
+    }
+	.option-icon{
+		display: inline-block;
+		float:right;
+		padding-right:5px;
+	}
+}
+.test-h1{
+    color:red;
+    height: 30px;
+    border :solid green 1px;
+}

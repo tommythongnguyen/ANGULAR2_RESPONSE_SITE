@@ -11,7 +11,7 @@ export const ROUTES:Routes=[
 		component:DashboardComponent,
 		//canActivate: [CanActivateDashboard],
 		children:[
-			{path:'', redirectTo:'home', pathMatch:'full'},
+			{path:'', redirectTo:'demo', pathMatch:'full'},
 			{ path: 'home', component: HomePageComponent },
 			{ path: 'album', component: AlbumPageComponent },
 			{ path: 'media', component: MediaPageComponent },

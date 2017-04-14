@@ -1,0 +1,12 @@
+.active {
+    background-color: bisque !important;
+}
+
+.dropdown-container {
+    &:hover {
+        cursor: pointer;
+    }
+    .option-container {
+        display: block;
+    }
+}
