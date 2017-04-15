@@ -36,6 +36,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 			<button type="submit">Submit</button>
 		</form>
 		
+		<panel-demo></panel-demo>
 	`
 })
 export class DemoPageComponent implements OnInit {

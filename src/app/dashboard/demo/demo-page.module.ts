@@ -5,6 +5,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {DemoPageComponent} from './demo-page.component';
 import { Ng2ComboboxComponent, ComboboxFooterComponent } from './combobox';
 import { DropdownComponent } from './dropdown';
+import { PanelComponent, PanelDemoComponent } from './panel';
+
+//------import directives-----------
+import { TemplateFactoryDirective } from './template-factory';
+
+//------import Pipes---------------
 import { ItemFilterPipe } from './pipes';
 
 const directives =[
@@ -12,6 +18,8 @@ const directives =[
 	Ng2ComboboxComponent,
 	ComboboxFooterComponent,
 	DropdownComponent,
+	PanelComponent, PanelDemoComponent,
+	TemplateFactoryDirective,
 	ItemFilterPipe
 ]
 @NgModule({
