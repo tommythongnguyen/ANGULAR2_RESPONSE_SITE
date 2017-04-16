@@ -1,0 +1,13 @@
+.tab-content-wrapper-overflown {
+    overflow: hidden;
+}
+
+.accordion-tab {
+    .tab-header {
+    	height:49px;
+        &:hover {
+            cursor: pointer;
+            background-color: #2f556a;
+        }
+    }
+}

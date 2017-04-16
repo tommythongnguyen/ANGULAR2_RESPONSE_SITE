@@ -71,7 +71,7 @@ export class ModalFooterComponent{}
                     <ng-content select="modal-body"></ng-content>
                 </div>
                 <div class="modal-footer-container" [style.justifyContent]="footerAlign">
-                    <button *ngIf="!footer" class="btn btn-info closeBtn" (click)="onClose()">Close</button>
+                    <button *ngIf="!footer" class="btn btn-info closeBtn" (click)="closeModal()">Close</button>
                     <ng-content select="modal-footer"></ng-content>
                 </div> 
             </div>

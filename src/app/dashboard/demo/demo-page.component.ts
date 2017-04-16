@@ -2,41 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 @Component({
 	selector: 'demo-page',
-	styleUrls:['./demo-page.component.scss'],
 	template:`
-		<form [formGroup]="myForm" (ngSubmit)="submitForm(myForm.value)">
-			<ng2-combobox [options]="comboboxOptions" formControlName="combo"
-					label="Choose"  [open]="isOpen" [filterable]="true" width="120px" height="160px"
-					 menuPosition="bottom-left" separatorBefore="{{comboboxOptions[1].label}}"
-					(onselect)=selectOption($event) (onToggle)="isOpen = !isOpen" [field]="filterField"
-					[optionTemplate]="optionTmplf" [footerTemplate]="footerTmplf">
-
-				<!--this is user defined menu-option -->
-				<ng-template #optionTmplf let-label="label"> 
-					<div class="templ-option">
-						<span class="cropText">{{label}}</span>
-						<i class="fa fa-car option-icon" aria-hidden="true"></i>
-					</div>
-				</ng-template>
-
-				<!--this is user defined combobox-footer -->
-				<ng-template #footerTmplf>
-					<div>
-						<dropdown [options]="dropdownOptions" [formControl]="dropdownControl"
-								menuPosition="top-left"	(onselect)="onSelectDropdown($event)"></dropdown>
-					</div>
-					
-				</ng-template>
-
-				<combobox-footer>
-					
-				</combobox-footer>
-
-			</ng2-combobox>
-			<button type="submit">Submit</button>
-		</form>
-		
-		<panel-demo></panel-demo>
+		<accordion-demo></accordion-demo>
 	`
 })
 export class DemoPageComponent implements OnInit {

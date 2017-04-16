@@ -1,0 +1,48 @@
+.combobox-container {
+    &:hover{
+        cursor: pointer;
+    }
+    border: solid gray 1px;
+    .btn-label {
+        width: 100%;
+        text-align: left;
+        @extend .cropText;
+    }
+    .menu-container {
+        display: block;
+        padding: 0 !important;
+        .dropdown-item {
+            @extend .cropText;
+            &:hover {
+                cursor: pointer;
+                background-color: lavender;
+            }
+        }
+        .filter-input {
+            width: 100%;
+            border: solid 2px darkgray;
+        }
+        
+        .option-item:hover{
+            cursor: pointer;
+            background-color: aliceblue;
+        }
+    }
+    .overflow{
+            overflow:scroll;
+    }
+    .active-selection {
+        background-color: darkseagreen !important;
+    }
+    .cropText {
+        overflow: hidden;
+        white-space: nowrap;
+        /* Don't forget this one */
+        text-overflow: ellipsis;
+    }
+    .bottom-left{}
+    .bottom-right{
+        left:initial;
+        right:0;
+    }
+}
