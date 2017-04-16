@@ -2,8 +2,10 @@
 ALL COMPONENTS INSIDE SHARED FOLDER
 
 //==================================================================
+
 In order to run the website properly, you need to run:
 IMPORTANT:  YOU NEED TO INSTALL :    Angul Cli  before you can be able to run this app: https://cli.angular.io/
+
 1/go inside "ANGULAR2_RESPONSE_SITE" folder: cd ANGULAR2_RESPONSE_SITE
 
 2/install node_modules:  npm install 
