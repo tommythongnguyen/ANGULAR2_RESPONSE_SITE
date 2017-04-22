@@ -80,6 +80,15 @@
           "name": "Flex Images","url":"./flexImages"
         }
       ]
+    },
+     {
+      "groupTitle": "Mics",
+      "groupIcon": "fa fa-keyboard-o",
+      "components": [
+        {
+          "name": "Dynamic Component", "url":"dynamic-component"
+        }
+      ]
     }
   ]
 }

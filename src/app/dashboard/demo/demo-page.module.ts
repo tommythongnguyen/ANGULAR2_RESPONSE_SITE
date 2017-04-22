@@ -5,15 +5,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule} from '@angular/router';
 
 import { SharedComponentModule } from '../../shared';
+import { DynamicCreationModule } from '../../shared/components/dynamic-component-creation';
 import {DemoPageComponent} from './demo-page.component';
 import { AccordionDemoPage } from './accordion-demo';
 import { ComboboxDemoPage } from './combobox-demo';
 import { TooltipDemoPage } from './tooltip-demo';
+import { DynamicComponentGenerationDemoPage } from './dynamic-component-generation-demo';
 const directives =[
 	DemoPageComponent,
 	AccordionDemoPage,
 	ComboboxDemoPage,
-	TooltipDemoPage
+	TooltipDemoPage,
+	DynamicComponentGenerationDemoPage
 ]
 @NgModule({
 	declarations:[...directives],
@@ -23,6 +26,7 @@ const directives =[
 		ReactiveFormsModule,
 		BrowserAnimationsModule,
 		SharedComponentModule,
+		DynamicCreationModule.forRoot(),
 		RouterModule
 	],
 	entryComponents: []

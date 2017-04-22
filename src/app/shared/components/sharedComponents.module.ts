@@ -2,6 +2,9 @@ import {NgModule} from '@angular/core';
 import{CommonModule} from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { DynamicCreationModule } from './dynamic-component-creation';
+
 //import {AutoFocusDirective} from './autoFocus';
 import {LoadingDirective} from './loading';
 import{ModalHeaderComponent, ModalFooterComponent,ModalBodyComponent, ModalComponent} from'./modal';
@@ -76,7 +79,8 @@ const importModules:any[]=[
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    DynamicCreationModule.forRoot()
 ];
 @NgModule({
     declarations:sharedDirective,

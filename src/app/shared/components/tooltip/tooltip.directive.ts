@@ -76,10 +76,8 @@ export class TooltipDirective implements OnInit, AfterViewInit, OnDestroy, OnCha
 	click($event){
 		$event.stopPropagation();
 		if(!this._shown){
-			//this._renderer2.setStyle(this._tooltipContainer, 'opacity',1);
 			this.showTooltip();
 		}else{
-			//this._renderer2.setStyle(this._tooltipContainer, 'opacity',0);
 			this.hideTooltip();
 		}
 	}

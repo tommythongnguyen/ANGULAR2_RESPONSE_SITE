@@ -3,6 +3,7 @@ import {DemoPageComponent} from './demo-page.component';
 import { AccordionDemoPage } from './accordion-demo';
 import { ComboboxDemoPage } from './combobox-demo';
 import { TooltipDemoPage } from './tooltip-demo';
+import { DynamicComponentGenerationDemoPage } from './dynamic-component-generation-demo';
 export const DEMO_ROUTES: Routes=[
 	{	path:'', 
 		component:DemoPageComponent,
@@ -22,6 +23,10 @@ export const DEMO_ROUTES: Routes=[
 			{
 				path:'tooltip',
 				component: TooltipDemoPage
+			},
+			{
+				path:'dynamic-component',
+				component: DynamicComponentGenerationDemoPage
 			}
 		]
 	}
