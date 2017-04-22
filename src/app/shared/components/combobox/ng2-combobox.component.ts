@@ -1,7 +1,7 @@
 import { Component, OnInit, forwardRef, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChanges, ViewChild, ElementRef, Renderer2, AfterViewInit, TemplateRef} from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { ElementCalculation } from '../../../shared';
+import { ElementCalculation } from '../../dom';
 export interface IOption{
 	lable: string;
 	value: any;

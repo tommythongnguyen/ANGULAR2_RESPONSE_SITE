@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ContentChildren, QueryList, 
-	AfterContentInit, ChangeDetectionStrategy, TemplateRef } from '@angular/core';
+	AfterContentInit, AfterViewInit, ChangeDetectionStrategy, TemplateRef
+} from '@angular/core';
 import {trigger, state, style, transition, animate} from '@angular/animations';
 
 let  prevName: string = "tab-";
@@ -12,22 +13,23 @@ let  prevName: string = "tab-";
 		</div>
 	`
 })
-export class AccordionComponent implements OnInit, AfterContentInit{
+export class AccordionComponent implements OnInit, AfterViewInit{
 	private _counter: number = 1; //number of Tab
 	private _activeTab: AccordionTabComponent;
 	private _Tabs = new Map<string, AccordionTabComponent>();
+	//@ContentChildren(AccordionTabComponent) tabs: QueryList<AccordionTabComponent>;
 	@Input() allowedMultipleOpen: boolean = false; //false: 1 tab open at time, true: allow to have multiple tab opend
-	@Input() activeTabNumber:number;
+	@Input() activeTabNumber:string|number;
 	constructor() {}
 
 	ngOnInit() {}
-	ngAfterContentInit(){
+	ngAfterViewInit() {
 		//let make sure all the tap first close
 		this._Tabs.forEach((tab: AccordionTabComponent) => {
 			tab.close();
 		});
 
-		if (Number(this.activeTabNumber)) {
+		if (this.activeTabNumber && Number(this.activeTabNumber)) {
 			let preSelectTabId = prevName + Number(this.activeTabNumber);
 			this._activeTab = this._Tabs.get(preSelectTabId);
 			this._activeTab.open();
@@ -66,13 +68,13 @@ export class AccordionComponent implements OnInit, AfterContentInit{
 	styleUrls:['./accordion.component.scss'],
 	template:`
 		<div class="card accordion-tab">
-		    <div class="card-header tab-header" (click)="select($event)">
+		    <div class="card-header tab-header" (click)="select($event)" [ngClass]="globalClass">
 		      <h5 class="mb-0" *ngIf="!_tabTemplateTitle">{{_tabTitle}}</h5>
 		      <ng-container [templateFactory]="_tabTemplateTitle" [context]="titleContext"></ng-container>
 		    </div>
 
 		    <div [@tabState]="_collapsed ? 'hidden':'visible' " (@tabState.done)="doneCollapse($event)" [class.tab-content-wrapper-overflown]="_collapsed || _animating">
-		      <div class="card-block">
+		      <div class="card-block"> 
 		         <ng-content></ng-content>
 		      </div>
 		    </div>
@@ -92,6 +94,7 @@ export class AccordionTabComponent{
 	private _allowedAnimation: boolean = false;
 	private _collapsed: boolean = true;
 	private _animating: boolean = false;
+	@Input() globalClass: string;
 	@Input() titleContext: any;
 	@Input() set title(_title: string | TemplateRef<any>){
 		if (typeof _title === "string") {

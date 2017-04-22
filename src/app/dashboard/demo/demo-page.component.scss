@@ -1,23 +1,67 @@
-.templ-option{
-	height: 40px;
+.demo-page {
+    padding-top: 20px;
+    .layout-sidebar {
+        min-height: 200px;
+        padding: 20px 10px;
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 20px;
+        background-color: lightslategray;
+        border-right: solid 1px #151d21;
+        overflow: hidden;
+        width: 249px;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+        ul {
+            list-style-type: none;
+            padding: 0;
+            li {
+                height: 36px;
+                &:hover {
+                    background-color: cadetblue;
+                }
+                a {
+                    display: inline-block;
+                    padding-top: 4px;
+                    font-size: 16px;
+                    padding-left: 10px;
+                    color: darkslategrey;
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+    }
+    .layout-content {
+        display: block;
+        margin-left: 250px;
+        background-color: #FFFFFF;
+    }
+}
+
+.templ-option {
+    height: 40px;
     padding-top: 7px;
-	.cropText {
+    .cropText {
         overflow: hidden;
         white-space: nowrap;
         /* Don't forget this one */
         text-overflow: ellipsis;
         display: inline-block;
-    	width: 75%;
-    	margin-left:11px;
+        width: 75%;
+        margin-left: 11px;
     }
-	.option-icon{
-		display: inline-block;
-		float:right;
-		padding-right:5px;
-	}
+    .option-icon {
+        display: inline-block;
+        float: right;
+        padding-right: 5px;
+    }
 }
-.test-h1{
-    color:red;
+
+.test-h1 {
+    color: red;
     height: 30px;
-    border :solid green 1px;
+    border: solid green 1px;
 }

@@ -5,6 +5,17 @@ export class ElementCalculation{
 		width += parseFloat(style.marginLeft) + parseFloat(style.marginRight);
 		return width;
 	}
+	public getOffset(el) {
+		let x = el.offsetLeft;
+		let y = el.offsetTop;
+
+		while (el = el.offsetParent) {
+			x += el.offsetLeft;
+			y += el.offsetTop;
+		}
+
+		return { left: x, top: y };
+	}
 
 	public getOuterHeight(element: HTMLElement): number {
 		let height = element.offsetHeight;

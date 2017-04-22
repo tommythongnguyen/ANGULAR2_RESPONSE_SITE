@@ -1,0 +1,85 @@
+{
+  "response": [
+    {
+      "groupTitle": "Input",
+      "groupIcon": "fa fa-keyboard-o",
+      "components": [
+        {
+          "name": "Dropdown", "url":"dropdown"
+        },
+        {
+          "name": "Combobox", "url":"combobox"
+        }
+      ]
+    },
+    {
+      "groupTitle": "Panel",
+      "groupIcon": "fa fa-keyboard-o",
+      "components": [
+        {
+          "name": "Accordion", "url":"accordion"
+        },
+        {
+          "name": "Panel", "url":"panel"
+        },
+        {
+          "name": "Tab", "url":"tab"
+        }
+      ]
+    },
+    {
+      "groupTitle": "Overlay",
+      "groupIcon": "fa fa-keyboard-o",
+      "components": [
+        {
+          "name": "Loading", "url":"loading"
+        },
+        {
+          "name": "Modal", "url":"modal"
+        },
+        {
+          "name": "Overlay", "url":"overlay"
+        },
+        {
+          "name": "Tooltip", "url":"tooltip"
+        }
+      ]
+    },
+    {
+      "groupTitle": "Data",
+      "groupIcon": "fa fa-keyboard-o",
+      "components": [
+        {
+          "name": "Card", "url":"card"
+        },
+        {
+          "name": "Carousel", "url":"carousel"
+        },
+        {
+          "name": "Jumbotron", "url":"jumbotron"
+        }
+      ]
+    },
+    {
+      "groupTitle": "MultiMedia",
+      "groupIcon": "fa fa-keyboard-o",
+      "components": [
+        {
+          "name": "Audio Player", "url":"./audioPlayer"
+        },
+        {
+          "name": "Video Player", "url":"./videoPlayer"
+        },
+        {
+          "name": "Youtube Player", "url":"./youtubePlayer"
+        },
+        {
+          "name": "Slideshow", "url":"./slideshow"
+        },
+        {
+          "name": "Flex Images","url":"./flexImages"
+        }
+      ]
+    }
+  ]
+}

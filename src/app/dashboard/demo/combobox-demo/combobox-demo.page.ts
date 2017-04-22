@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 @Component({
 	selector: 'combobox-demo',
-	styleUrls: ['./combobox.DEMO.scss'],
+	styleUrls: ['./combobox-demo.page.scss'],
 	template: `
 		<form [formGroup]="myForm" (ngSubmit)="submitForm(myForm.value)">
 			<ng2-combobox [options]="comboboxOptions" formControlName="combo"
@@ -37,7 +37,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 		</form>
 	`
 })
-export class ComboboxDEMO implements OnInit {
+export class ComboboxDemoPage implements OnInit {
 	private filterField: string;
 	public myForm: FormGroup;
 	public comboboxOptions = [];

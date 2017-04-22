@@ -1,56 +1,56 @@
-import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import { Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Router} from '@angular/router';
+import { DashboardHttpService } from '../services';
+import { Observable } from 'rxjs/Observable';
 @Component({
 	selector: 'demo-page',
+	//changeDetection:ChangeDetectionStrategy.OnPush
+	styleUrls:['./demo-page.component.scss'],
 	template:`
-		<accordion-demo></accordion-demo>
+		<section class="demo-page">
+			<aside class="layout-sidebar" [loading]="isLoading"  spinner="show">
+				<accordion activeTabNumber="0">
+					<accordion-tab *ngFor="let group of groups"
+						[title]="titleTmpl" [titleContext]="group" globalClass="demo-page-aside">
+						<ul>
+							<li *ngFor="let item of group.components">
+								<a href="#" [routerLink]="['./',item.url]" routerLinkActive="active">{{item.name}}</a>
+							</li>
+						</ul>
+					</accordion-tab>
+				</accordion>
+
+				<ng-template #titleTmpl let-title="groupTitle" let-icon ="groupIcon">
+					<i [ngClass]="icon" aria-hidden="true"></i>
+					<span>{{title}}</span>
+				</ng-template>
+			</aside>
+			<section class="layout-content">
+				<router-outlet></router-outlet>
+			</section>
+		</section>
 	`
 })
-export class DemoPageComponent implements OnInit {
-	private filterField: string;
-	public myForm: FormGroup;
-	public comboboxOptions = [];
-	public dropdownOptions = [];
-	
-	dropdownControl: FormControl;
-
-	selectItem: string;
-	isOpen= false;
-	constructor() {}
-
-	ngOnInit() {
-		this.dropdownOptions = [
-			'label','value'
-		];
-		this.comboboxOptions = [
-			{ label: 'item1', value: "value1" },
-			{ label: 'item2', value: "value2" },
-			{ label: 'item3- this is a very long items label', value: "value3" },
-			{ label: 'item4', value: "value4" },
-			{ label: 'Item5', value: "value5" },
-		];
-		this.selectItem = this.comboboxOptions[0];
-
-		this.myForm = new FormGroup({
-			combo: new FormControl(this.comboboxOptions[3])
-		});
-
-		this.dropdownControl = new FormControl(this.dropdownOptions[0]);
-		this.filterField = this.dropdownOptions[0];
-	}
-	selectOption(selectedOption){
-		console.log('selectedOption: ', selectedOption);
-	}
-	submitForm(value){
-		console.log('form value:', value);
-		this.isOpen = !this.isOpen;
-	}
-	onClickBtn():boolean{
-		console.log('you click me: ');
-		return false;
-	}
-	onSelectDropdown(option){
-		console.log('onSelectDropdown: ', option);
-		this.filterField = option;
+export class DemoPageComponent implements OnInit{
+	private isLoading: boolean = false;
+	//public groups: Observable<any[]>;
+	public groups: any[] = [];
+	constructor(private _dashboardHttpService: DashboardHttpService, private _router: Router) { }
+	ngOnInit(){
+		this.isLoading = true;
+		this._dashboardHttpService.getDashboardData("components")
+			.subscribe(
+			res => {
+				console.log('res:', res);
+				this.groups = res;
+			},
+			err => {
+				console.log('err:', err)
+			},
+			() => { this.isLoading = false; }
+			);
+		this._router.events.subscribe(
+			ev => { console.log('ev:', ev) }
+		)	
 	}
 }
