@@ -10,7 +10,7 @@ export const DEMO_ROUTES: Routes=[
 		children:[
 			{
 				path: '',
-				component: AccordionDemoPage,
+				component: TooltipDemoPage ,
 			},
 			{
 				path: 'accordion',
@@ -22,7 +22,7 @@ export const DEMO_ROUTES: Routes=[
 			},
 			{
 				path:'tooltip',
-				component: TooltipDemoPage
+				component: AccordionDemoPage
 			},
 			{
 				path:'dynamic-component',

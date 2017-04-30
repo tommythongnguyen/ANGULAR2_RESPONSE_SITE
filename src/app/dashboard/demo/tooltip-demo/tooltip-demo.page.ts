@@ -11,13 +11,17 @@ import { Component, OnInit } from '@angular/core';
 		}
 	`],
 	template: `
-		<button class="btn btn-primary" tooltip="<h5>inner Tooltip</h5>" placement="bottom" appendTo="target" style="position:relative">
-			Tooltip Text and String HTML
+		<div style="position:relative">
+			<button class="btn btn-primary" tooltip="<h5>inner Tooltip {{myName.name}}</h5>"  placement="bottom" appendTo="target" >
+				Tooltip  With Text and HTML
+			</button>
+		</div><hr />
+
+		<button class="btn btn-primary" [tooltip]="tooltipTempl" [visible]="show"  placement="bottom"
+				[tooltipContext]="myName" tooltipId="tmplId" trigger="click" (ontoggleTooltip)="toggle($event)"
+			>Tooltip with Template
 		</button>
 
-		<button class="btn btn-primary" [tooltip]="tooltipTempl" [visible]="show" 
-				[tooltipContext]="myName" tooltipId="tmplId" trigger="click" (ontoggleTooltip)="toggle($event)"
-			>Tooltip with Template</button>
 		<ng-template #tooltipTempl let-name="name">
 			<section id="tmplId">
 				<div  class="myTempl">Hello World: {{name}}</div>

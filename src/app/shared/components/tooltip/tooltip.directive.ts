@@ -1,143 +1,102 @@
-import { Directive, OnInit, OnDestroy, Renderer2, Input, Output, EventEmitter, ViewContainerRef, TemplateRef,
- 	ElementRef,AfterViewInit, ViewRef, OnChanges, SimpleChanges} from '@angular/core';
-import { ElementCalculation } from '../../dom';
-@Directive({
-	selector: '[tooltip]'
-})
-export class TooltipDirective implements OnInit, AfterViewInit, OnDestroy, OnChanges{
-	private _shown:boolean =false;
-	private _tooltipContainer: HTMLDivElement;
-	private _tooltipArrow: HTMLDivElement;
-	private _tooltipInner: HTMLDivElement;
+import {
+	Component, Directive, Input, Output, TemplateRef, OnInit, ElementRef, Renderer2, OnDestroy, ComponentRef, ApplicationRef, Injector, ChangeDetectorRef, NgZone,
+	ComponentFactory, ComponentFactoryResolver, ViewContainerRef, ViewChild, EventEmitter, OnChanges, SimpleChanges, ChangeDetectionStrategy} from '@angular/core';
 
-	@Input() trigger: string = "hover";
-	@Input()tooltip:string |TemplateRef<Object>="";
-	@Input() tooltipContext: any;
-	@Input() tooltipId: string;
-	@Input()appendTo:any="body";//'target'
-	@Input() placement: string = "right";
-	@Input() visible: boolean = false;
+import { ElementCalculation } from '../../dom';
+let tooltipId = 0;
+@Directive({
+	selector: '[tooltip]',
+})
+export class TooltipDirective implements OnDestroy, OnInit, OnChanges {
+	private _tooltipState: string = "hide";
+	private _tooltipCmpRef: ComponentRef<TooltipComponent>
+	private _mouseoverListener: Function;
+	private _mouseoutListener: Function;
+	private _clickListener: Function;
 	@Output() ontoggleTooltip: EventEmitter<Object> = new EventEmitter<Object>();
+	@Input() trigger: string = "hover";//click
+	@Input() tooltip: string | TemplateRef<Object>;
+	@Input() tooltipContext: any;
+	@Input() placement: string = 'top';//'leff' | 'right' | 'top' | 'bottom'
+	@Input() appendTo: string = "body";
+	@Input() visible: boolean = false; //allow to show/hide tooltip for outside of tooltip
 	constructor(
-		private _renderer2:Renderer2, 
+		private _elementRef: ElementRef, 
 		private _viewContainerRef: ViewContainerRef,
-		private _elementRef:ElementRef,
-		private _dom: ElementCalculation) { }
+		private _renderer2:Renderer2,
+		private _componentFactoryResolver: ComponentFactoryResolver,
+		private _dom: ElementCalculation,
+		protected applicationRef: ApplicationRef,
+		protected injector:Injector,
+		protected zone: NgZone) { }
+	ngOnInit(){
+		this.registerEvents();
+	}
 	ngOnChanges(changes:SimpleChanges){
-		if (changes['visible'] && this._tooltipContainer){
-			if(this.visible && !this._shown){
+		if (changes['visible'] && this._tooltipCmpRef) {
+			if(this.visible && this._tooltipState==="hide"){
 				this.showTooltip();
-			}else if (!this.visible && this._shown){
+			}
+			if(!this.visible && this._tooltipState ==="show"){
 				this.hideTooltip();
 			}
 		}
-	}
-	ngOnInit(){
-		this.createTooltip();
-	}
-	ngAfterViewInit(){
-		//register click event
-		this.registerEvents();
-	}
-	createTooltip(){
-		if (this._tooltipContainer){
-			return;
+		if (changes['tooltipContext'] && (typeof this.tooltip !== 'string') && this._tooltipCmpRef){
+			//this._tooltipCmpRef.instance.context = this.tooltipContext;
 		}
-		let styleClass = "tooltip-container tooltip-container-" + this.placement;
-
-		this._tooltipContainer = this._renderer2.createElement('div');
-		this.addClassesToElement(this._tooltipContainer, styleClass);
-
-		this._tooltipArrow = this._renderer2.createElement('div');
-		this.addClassesToElement(this._tooltipArrow, 'tooltip-arrow');
-
-		this._tooltipInner = this._renderer2.createElement('div');
-		this.addClassesToElement(this._tooltipInner, 'tooltip-content');
-		
-		//append Child
-		this._renderer2.appendChild(this._tooltipContainer, this._tooltipArrow);
-		this._renderer2.appendChild(this._tooltipContainer, this._tooltipInner);
+	}
+	
+	
+	registerEvents(){
+		if (this.trigger==="click"){
+			this._clickListener = this._renderer2.listen(this._elementRef.nativeElement, 'click', this.toggleTooltip.bind(this));
+		}else{
+			this._mouseoverListener = this._renderer2.listen(this._elementRef.nativeElement, 'mouseover', this.showTooltip.bind(this));
+			this._mouseoutListener = this._renderer2.listen(this._elementRef.nativeElement, 'mouseout', this.hideTooltip.bind(this));
+		}
 	}
 
-	addClassesToElement(el:HTMLElement, cls:string){
-		let classes = cls.split(' ');
-		classes.map(elClass => {
-			this._renderer2.addClass(el, elClass);
+	buildTooltip(){
+		if(this._tooltipCmpRef){
+			this._tooltipCmpRef.destroy();
+		}
+
+		let tooltipCmpFactory = this._componentFactoryResolver.resolveComponentFactory(TooltipComponent);
+		if(this.appendTo==="body"){
+			this._tooltipCmpRef = tooltipCmpFactory.create(this.injector);
+
+			let rootComponentRef = this.applicationRef.components[0];
+			let rootComponentNode = rootComponentRef.location.nativeElement;
+			//attached this tooltip dom node to the rootnode
+			this._renderer2.appendChild(rootComponentNode, this._tooltipCmpRef.location.nativeElement);
+
+			//add this tooltip viewRef to the ApplicationRef: so Angular itself will take care update the view biding for us
+			this.applicationRef.attachView(this._tooltipCmpRef.hostView);
+
+		}else{
+			//append to the target
+			this._tooltipCmpRef = this._viewContainerRef.createComponent(tooltipCmpFactory);
+		}
+
+		//append tooltip content
+		if (this.tooltipContext) {
+			this._tooltipCmpRef.instance.context = this.tooltipContext;
+		}
+		this._tooltipCmpRef.instance.content = this.tooltip;
+		this._tooltipCmpRef.instance.placement = this.placement;
+		this._tooltipCmpRef.instance.id = tooltipId;
+		tooltipId++;
+		//mark the tooltip component for check to update the view 
+		this._tooltipCmpRef.instance._markForCheck();
+
+		//run the zone here to mark sure the view has been update then do the tooltipPosition caculation
+		this.zone.onMicrotaskEmpty.first().subscribe(() => {
+			this.calcTooltipPosition();
 		});
 	}
-	registerEvents(){
-		if(this.trigger ==="click"){
-			this._renderer2.listen(this._elementRef.nativeElement, 'click', this.click.bind(this));
-		}else{
-			this._renderer2.listen(this._elementRef.nativeElement,'mouseover',this.mouseOver.bind(this));
-			this._renderer2.listen(this._elementRef.nativeElement,'mouseout', this.mouseOut.bind(this));
-		}
-	}
-	click($event){
-		$event.stopPropagation();
-		if(!this._shown){
-			this.showTooltip();
-		}else{
-			this.hideTooltip();
-		}
-	}
 
-	mouseOver(){
-		//this._renderer2.setStyle(this._tooltipContainer, 'opacity',1);
-		this._shown = true;
-		this.showTooltip();
-	}
-
-	mouseOut(){
-		//this._renderer2.setStyle(this._tooltipContainer, 'opacity',0);
-		this._shown = false;
-		this.hideTooltip();
-	}
-
-	showTooltip(){
-		this.buildTooltipContent();
-		this.appendTooltip();
-		this.calcTooltipPosition();
-		//show tooltip-----
-		this._renderer2.setStyle(this._tooltipContainer, 'opacity', 1);
-		this.ontoggleTooltip.emit({ show: true });
-		this._shown = true;
-	}
-	hideTooltip(){
-		this._tooltipInner.innerHTML = "";
-		this._renderer2.setStyle(this._tooltipContainer, 'opacity', 0);
-		this.ontoggleTooltip.emit({ show: false });
-		this._shown = false;
-	}
-
-	buildTooltipContent(){
-		if (typeof this.tooltip === "string") {
-			let ttLength = this.tooltip.length;
-			let tooltipString = this.tooltip.trim();
-			if (tooltipString.charAt(0) === "<" && tooltipString.charAt(ttLength - 1) === ">") {
-				//this is string of dom
-				this._tooltipInner.insertAdjacentHTML("afterbegin", tooltipString);
-			} else {
-				this._tooltipInner.innerHTML = this.tooltip;
-			}
-		} else if (typeof this.tooltip === "object" && this.tooltipId) {//have to be TemplateRef
-			//let create the child view inside this viewContainer
-			let embbedView: ViewRef = this._viewContainerRef.createEmbeddedView(this.tooltip, this.tooltipContext);
-			let templateElement = document.getElementById(this.tooltipId);
-
-			this._renderer2.appendChild(this._tooltipInner, templateElement);
-		}
-	}
-
-	appendTooltip(){
-		if (this.appendTo === "body") {
-			this._renderer2.appendChild(document.body, this._tooltipContainer);
-		} else if (this.appendTo = "target") {
-			this._renderer2.appendChild(this._elementRef.nativeElement, this._tooltipContainer);
-		}
-	}
-
-	calcTooltipPosition(){
+	calcTooltipPosition() {
+		let tooltipContainer:HTMLElement = this._tooltipCmpRef.instance.tooltipContainer.nativeElement;
 		let offset = (this.appendTo !== 'body') ? { left: 0, top: 0 } : this._dom.getOffset(this._elementRef.nativeElement);
 		let targetTop = offset.top;
 		let targetLeft = offset.left;
@@ -146,31 +105,112 @@ export class TooltipDirective implements OnInit, AfterViewInit, OnDestroy, OnCha
 		switch (this.placement) {
 			case 'right':
 				left = targetLeft + this._dom.getOuterWidth(this._elementRef.nativeElement);
-				top = targetTop + (this._dom.getOuterHeight(this._elementRef.nativeElement) - this._dom.getOuterHeight(this._tooltipContainer)) / 2;
+				top = targetTop + (this._dom.getOuterHeight(this._elementRef.nativeElement) - this._dom.getOuterHeight(tooltipContainer)) / 2;
 				break;
 
 			case 'left':
-				left = targetLeft - this._dom.getOuterWidth(this._tooltipContainer);
-				top = targetTop + (this._dom.getOuterHeight(this._elementRef.nativeElement) - this._dom.getOuterHeight(this._tooltipContainer)) / 2;
+				left = targetLeft - this._dom.getOuterWidth(tooltipContainer);
+				top = targetTop + (this._dom.getOuterHeight(this._elementRef.nativeElement) - this._dom.getOuterHeight(tooltipContainer)) / 2;
 				break;
 
 			case 'top':
-				left = targetLeft + (this._dom.getOuterWidth(this._elementRef.nativeElement) - this._dom.getOuterWidth(this._tooltipContainer)) / 2;
-				top = targetTop - this._dom.getOuterHeight(this._tooltipContainer);
+				left = targetLeft + (this._dom.getOuterWidth(this._elementRef.nativeElement) - this._dom.getOuterWidth(tooltipContainer)) / 2;
+				top = targetTop - this._dom.getOuterHeight(tooltipContainer);
 				break;
 
 			case 'bottom':
-				left = targetLeft + (this._dom.getOuterWidth(this._elementRef.nativeElement) - this._dom.getOuterWidth(this._tooltipContainer)) / 2;
+				left = targetLeft + (this._dom.getOuterWidth(this._elementRef.nativeElement) - this._dom.getOuterWidth(tooltipContainer)) / 2;
 				top = targetTop + this._dom.getOuterHeight(this._elementRef.nativeElement);
 				break;
 		}
-		this._renderer2.setStyle(this._tooltipContainer, 'top', top + 'px');
-		this._renderer2.setStyle(this._tooltipContainer, 'left', left + 'px');
+		this._renderer2.setStyle(tooltipContainer, 'top', top + 'px');
+		this._renderer2.setStyle(tooltipContainer, 'left', left + 'px');
 	}
 
+	showTooltip(){
+		if(!this._tooltipCmpRef){
+			this.buildTooltip();
+		}
+		this._tooltipCmpRef.instance.show();
+		this._tooltipState = "show";
+		this.ontoggleTooltip.emit({ show: true });
+	}
+	hideTooltip(){
+		if(this._tooltipCmpRef){
+			this._tooltipCmpRef.destroy();
+			this._tooltipCmpRef = null;
+			this._tooltipState = "hide";
+			this.ontoggleTooltip.emit({ show: false });
+		}
+		
+	}
+
+	toggleTooltip(){
+		if (this._tooltipState === "show") {
+			this.hideTooltip();
+		}else{
+			this.showTooltip();
+		}
+	}
 	ngOnDestroy(){
-		this.hideTooltip();
-		this._tooltipInner = null;
+		this._mouseoutListener = null;
+		this._mouseoverListener = null;
+		this._clickListener = null;
+		if(this._tooltipCmpRef){
+			this._tooltipCmpRef.destroy();
+		}
+	}
+}
+
+@Component({
+	selector:'tooltip',
+	//changeDetection:ChangeDetectionStrategy.OnPush,
+	styleUrls:['./tooltip.component.scss'],
+	template:`
+		<div #tooltipContainer class="tooltip-container tooltip-container-{{placement}}" role="tooltip" id="tooltip-id-{{id}}">
+		  <div class="tooltip-arrow"></div>
+		  <div class="tooltip-content">
+		    <ng-container *ngIf="!_templateRefContent">
+				<div [innerHTML]="content"></div>
+		    </ng-container>
+		    <ng-container *ngIf="_templateRefContent" [templateFactory]="content" [context]="context"></ng-container>
+		  </div>
+		</div>
+	`
+})
+export class TooltipComponent implements OnChanges{
+	private _stringContent: string;
+	private _templateRefContent: TemplateRef<any>;
+	constructor(private _renderer2: Renderer2, private _elementRef: ElementRef, protected changeDetectionRef: ChangeDetectorRef) { }
+	@Input() id: any = 0;
+	@Input() placement: string;
+	@ViewChild('tooltipContainer') tooltipContainer: ElementRef;
+	@Input() context;
+	@Input() set content(content: string | TemplateRef<any>){
+		if(typeof content ==="string"){
+			this._stringContent = content;
+		}
+		else if (typeof content ==="object"){//must be templateRef
+			this._templateRefContent = content;
+		}
+	}
+	get content(): string | TemplateRef<any>{
+		return this._templateRefContent || this._stringContent;
+	}
+	ngOnChanges(changes:SimpleChanges){
+		if(changes['content'] ){
+			console.log('context: ', this.context);
+		}
+	}
+	show(){
+		this._renderer2.setStyle(this.tooltipContainer.nativeElement, 'opacity', 1);
+	}
+	hide(){
+		this._renderer2.setStyle(this.tooltipContainer.nativeElement, 'opacity', 0);
 	}
 
+	_markForCheck():void{
+		this.changeDetectionRef.markForCheck();
+	}
+	
 }

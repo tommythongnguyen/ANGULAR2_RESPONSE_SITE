@@ -23,7 +23,7 @@ import { Ng2ComboboxComponent, ComboboxFooterComponent} from './combobox';
 import { DropdownComponent } from './dropdown';
 import { PanelComponent, PanelDemoComponent } from './panel';
 import { AccordionComponent, AccordionTabComponent} from './accordion';
-import { TooltipDirective} from './tooltip';
+import { TooltipDirective, TooltipComponent } from './tooltip';
 //------import directives-----------
 import { TemplateFactoryDirective } from './template-factory';
 
@@ -71,7 +71,7 @@ const sharedDirective:any[]=[
 
     AccordionComponent, AccordionTabComponent,
 
-    TooltipDirective,
+    TooltipDirective, TooltipComponent,
 
     ItemFilterPipe
 ];
@@ -85,6 +85,7 @@ const importModules:any[]=[
 @NgModule({
     declarations:sharedDirective,
     imports:importModules,
-    exports:sharedDirective
+    exports:sharedDirective,
+    entryComponents: [TooltipComponent]
 })
 export class SharedComponentModule{}
