@@ -3,7 +3,8 @@ import {
 	ComponentFactory, ComponentFactoryResolver, ViewContainerRef, ViewChild, EventEmitter, OnChanges, SimpleChanges, ChangeDetectionStrategy} from '@angular/core';
 
 import { ElementCalculation } from '../../dom';
-let tooltipId = 0;
+export type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
+
 @Directive({
 	selector: '[tooltip]',
 })
@@ -17,9 +18,9 @@ export class TooltipDirective implements OnDestroy, OnInit, OnChanges {
 	@Input() trigger: string = "hover";//click
 	@Input() tooltip: string | TemplateRef<Object>;
 	@Input() tooltipContext: any;
-	@Input() placement: string = 'top';//'leff' | 'right' | 'top' | 'bottom'
+	@Input() placement: TooltipPosition = 'top';//'leff' | 'right' | 'top' | 'bottom'
 	@Input() appendTo: string = "body";
-	@Input() visible: boolean = false; //allow to show/hide tooltip for outside of tooltip
+	@Input() dismiss: boolean = false; //allow to show/hide tooltip for outside of tooltip
 	constructor(
 		private _elementRef: ElementRef, 
 		private _viewContainerRef: ViewContainerRef,
@@ -33,16 +34,21 @@ export class TooltipDirective implements OnDestroy, OnInit, OnChanges {
 		this.registerEvents();
 	}
 	ngOnChanges(changes:SimpleChanges){
-		if (changes['visible'] && this._tooltipCmpRef) {
-			if(this.visible && this._tooltipState==="hide"){
-				this.showTooltip();
-			}
-			if(!this.visible && this._tooltipState ==="show"){
+		if (changes['dismiss'] && !!this.dismiss && this._tooltipCmpRef && this.trigger === "click") {
+			if (this._tooltipState === "show") {
 				this.hideTooltip();
 			}
 		}
-		if (changes['tooltipContext'] && (typeof this.tooltip !== 'string') && this._tooltipCmpRef){
-			//this._tooltipCmpRef.instance.context = this.tooltipContext;
+		if(changes['tooltip'] && changes['tooltip'].currentValue && this._tooltipCmpRef){
+			console.log('tooltipContent');
+			this._tooltipCmpRef.instance.tooltipContent = this.tooltip;
+			this._triggerTooltipChangeDetection();
+		}
+		if (changes['tooltipContext'] && changes['tooltipContext'].currentValue && this._tooltipCmpRef) {
+			console.log('tooltipContextttttt');
+			this._tooltipCmpRef.instance.tooltipContext = this.tooltipContext;
+
+			this._triggerTooltipChangeDetection();
 		}
 	}
 	
@@ -80,19 +86,25 @@ export class TooltipDirective implements OnDestroy, OnInit, OnChanges {
 
 		//append tooltip content
 		if (this.tooltipContext) {
-			this._tooltipCmpRef.instance.context = this.tooltipContext;
+			this._tooltipCmpRef.instance.tooltipContext = this.tooltipContext;
 		}
-		this._tooltipCmpRef.instance.content = this.tooltip;
+		this._tooltipCmpRef.instance.tooltipContent = this.tooltip;
 		this._tooltipCmpRef.instance.placement = this.placement;
-		this._tooltipCmpRef.instance.id = tooltipId;
-		tooltipId++;
+		this._triggerTooltipChangeDetection();
+	}
+
+	_triggerTooltipChangeDetection(){
 		//mark the tooltip component for check to update the view 
 		this._tooltipCmpRef.instance._markForCheck();
 
 		//run the zone here to mark sure the view has been update then do the tooltipPosition caculation
-		this.zone.onMicrotaskEmpty.first().subscribe(() => {
-			this.calcTooltipPosition();
-		});
+		setTimeout(()=>{
+			this.zone.onMicrotaskEmpty.first().subscribe(() => {
+				console.log('onMicrotaskEmpty');
+				this.calcTooltipPosition();
+			});
+		})
+		
 	}
 
 	calcTooltipPosition() {
@@ -137,8 +149,7 @@ export class TooltipDirective implements OnDestroy, OnInit, OnChanges {
 	}
 	hideTooltip(){
 		if(this._tooltipCmpRef){
-			this._tooltipCmpRef.destroy();
-			this._tooltipCmpRef = null;
+			this._tooltipCmpRef.instance.hide();
 			this._tooltipState = "hide";
 			this.ontoggleTooltip.emit({ show: false });
 		}
@@ -158,6 +169,7 @@ export class TooltipDirective implements OnDestroy, OnInit, OnChanges {
 		this._clickListener = null;
 		if(this._tooltipCmpRef){
 			this._tooltipCmpRef.destroy();
+			this._tooltipCmpRef = null;
 		}
 	}
 }
@@ -167,26 +179,25 @@ export class TooltipDirective implements OnDestroy, OnInit, OnChanges {
 	//changeDetection:ChangeDetectionStrategy.OnPush,
 	styleUrls:['./tooltip.component.scss'],
 	template:`
-		<div #tooltipContainer class="tooltip-container tooltip-container-{{placement}}" role="tooltip" id="tooltip-id-{{id}}">
+		<div #tooltipContainer class="tooltip-container tooltip-container-{{placement}}" role="tooltip" >
 		  <div class="tooltip-arrow"></div>
 		  <div class="tooltip-content">
 		    <ng-container *ngIf="!_templateRefContent">
-				<div [innerHTML]="content"></div>
+				<div [innerHTML]="tooltipContent"></div>
 		    </ng-container>
-		    <ng-container *ngIf="_templateRefContent" [templateFactory]="content" [context]="context"></ng-container>
+		    <ng-container *ngIf="_templateRefContent" [templateFactory]="tooltipContent" [context]="tooltipContext"></ng-container>
 		  </div>
 		</div>
 	`
 })
-export class TooltipComponent implements OnChanges{
+export class TooltipComponent{
 	private _stringContent: string;
 	private _templateRefContent: TemplateRef<any>;
 	constructor(private _renderer2: Renderer2, private _elementRef: ElementRef, protected changeDetectionRef: ChangeDetectorRef) { }
-	@Input() id: any = 0;
-	@Input() placement: string;
+	@Input() placement: TooltipPosition;
 	@ViewChild('tooltipContainer') tooltipContainer: ElementRef;
-	@Input() context;
-	@Input() set content(content: string | TemplateRef<any>){
+	@Input() tooltipContext;
+	@Input() set tooltipContent(content: string | TemplateRef<any>){
 		if(typeof content ==="string"){
 			this._stringContent = content;
 		}
@@ -194,13 +205,8 @@ export class TooltipComponent implements OnChanges{
 			this._templateRefContent = content;
 		}
 	}
-	get content(): string | TemplateRef<any>{
+	get tooltipContent(): string | TemplateRef<any>{
 		return this._templateRefContent || this._stringContent;
-	}
-	ngOnChanges(changes:SimpleChanges){
-		if(changes['content'] ){
-			console.log('context: ', this.context);
-		}
 	}
 	show(){
 		this._renderer2.setStyle(this.tooltipContainer.nativeElement, 'opacity', 1);

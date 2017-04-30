@@ -12,7 +12,7 @@ export class TemplateFactoryDirective implements OnChanges, OnDestroy {
 	ngOnChanges(changes:SimpleChanges) {
 		if ((changes['templateFactory'] && changes['templateFactory'].currentValue )||
 			(changes['context'] && changes['context'].currentValue)){
-			console.log('changes: ', changes);
+			//console.log('changes: ', changes);
 			if (this._viewRef){
 				//destroy this view
 				this._viewContainerRef.remove(this._viewContainerRef.indexOf(this._viewRef));

@@ -12,13 +12,13 @@ import { Component, OnInit } from '@angular/core';
 	`],
 	template: `
 		<div style="position:relative">
-			<button class="btn btn-primary" tooltip="<h5>inner Tooltip {{myName.name}}</h5>"  placement="bottom" appendTo="target" >
+			<button class="btn btn-primary" trigger="click" tooltip="<h5>inner Tooltip {{myName.name}}</h5>"  placement="bottom" appendTo="target" >
 				Tooltip  With Text and HTML
 			</button>
 		</div><hr />
 
-		<button class="btn btn-primary" [tooltip]="tooltipTempl" [visible]="show"  placement="bottom"
-				[tooltipContext]="myName" tooltipId="tmplId" trigger="click" (ontoggleTooltip)="toggle($event)"
+		<button class="btn btn-primary" [tooltip]="tooltipTempl" placement="bottom" [dismiss]="dismissable"
+				[tooltipContext]="myName" trigger="click" (ontoggleTooltip)="toggle($event)"
 			>Tooltip with Template
 		</button>
 
@@ -29,12 +29,11 @@ import { Component, OnInit } from '@angular/core';
 					<button class="btn btn-primary my-btn" (click)="close($event)">Close</button>
 				</div>
 			</section>
-			
 		</ng-template>
 	`
 })
 export class TooltipDemoPage implements OnInit {
-	private show: boolean = false;
+	private dismissable: boolean = false;
 	public myName = {
 		name: "Tommy Thong Nguyen"
 	};
@@ -51,10 +50,10 @@ export class TooltipDemoPage implements OnInit {
 	close($event) {
 		$event.stopPropagation();
 		console.log('let close this tooltip');
-		this.show = false;
+		this.changeName();
+		//this.dismissable = true;
 	}
 	toggle($event){
 		console.log('$event: ', $event);
-		this.show = $event.show;
 	}
 }
